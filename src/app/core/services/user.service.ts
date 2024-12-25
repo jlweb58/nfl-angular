@@ -9,7 +9,7 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  private serviceUrl = environment.baseUrl + '/jogging/user/password';
+  private serviceUrl = environment.baseUrl + '/nfl-survivor/user/password';
   private message: string;
 
   constructor(private logger: LoggerService, private http: HttpClient) {

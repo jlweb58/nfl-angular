@@ -1,0 +1,15 @@
+<h2>Teams</h2>
+
+
+<table mat-table [dataSource]="teams">
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td  mat-cell *matCellDef="let team"> {{team.name}} </td>
+  </ng-container>
+  <ng-container matColumnDef="logo">
+    <th mat-header-cell *matHeaderCellDef> Logo </th>
+    <td mat-cell *matCellDef="let team">  <img class="team-icon" src="assets/images/{{team.abbreviation}}.png" alt="Image" /></td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let team; columns: columnsToDisplay"></tr>
+</table>
