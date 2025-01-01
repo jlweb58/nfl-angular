@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.team-icon {
+  width: 30px;
+  height: 30px;
+
+}
+
+.week-button-disabled {
+  color: grey !important; /* Change icon color */
+  background-color: transparent; /* Optional: change background */
+  opacity: 0.5; /* Optional: make it look dimmed */
+  cursor: not-allowed; /* Indicate it's non-clickable */
+}
