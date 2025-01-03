@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private tokenStorageService: TokenStorageService, private logger: LoggerService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    this.logger.log('AuthInterceptor.intercept');
     const token = this.tokenStorageService.getToken();
     if (token != null) {
       const httpHeaders = new HttpHeaders({

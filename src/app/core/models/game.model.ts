@@ -1,5 +1,6 @@
 import {DateTime} from 'luxon';
 import {Team} from './team.model';
+import {Stadium} from './stadium.model';
 
 export class Game {
 
@@ -13,9 +14,12 @@ export class Game {
   homePoints: number;
   awayPoints: number;
   pointSpread: number;
+  venue: Stadium;
 
 
-  constructor(id: number, espnId: number, gameStartingTime: DateTime, homeTeam: Team, awayTeam: Team, week: number, year: number, homePoints: number, awayPoints: number, pointSpread: number) {
+  constructor(id: number, espnId: number, gameStartingTime: DateTime, homeTeam: Team, awayTeam: Team,
+              week: number, year: number, homePoints: number, awayPoints: number, pointSpread: number,
+              venue: Stadium) {
     this.id = id;
     this.espnId = espnId;
     this.startTime = gameStartingTime;
@@ -26,5 +30,6 @@ export class Game {
     this.homePoints = homePoints;
     this.awayPoints = awayPoints;
     this.pointSpread = pointSpread;
+    this.venue = venue;
   }
 }

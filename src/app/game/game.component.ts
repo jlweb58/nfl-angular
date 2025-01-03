@@ -14,6 +14,9 @@ import {
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
+import {Team} from '../core/models/team.model';
+import {TeamService} from '../core/services/team.service';
+import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 
 @Component({
   selector: 'app-game-component',
@@ -38,10 +41,10 @@ import {MatIconButton} from '@angular/material/button';
 export class GameComponent implements OnInit {
 
   games: Game[];
-  columnsToDisplay :string[] = ['awayTeam', 'homeTeam', 'gameStartingTime', 'pointSpread', 'score'];
+  columnsToDisplay :string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
   weekToDisplay:number = 1;
 
-  constructor(private logger: LoggerService, private gameService: GameService) {
+  constructor(private logger: LoggerService, private gameService: GameService, private teamService: TeamService) {
     this.games = [];
   }
 
@@ -70,6 +73,20 @@ export class GameComponent implements OnInit {
     if (this.weekToDisplay == 18) { return; }
     this.weekToDisplay++;
     this.loadGames();
+  }
+
+  getFormattedWeeklyTeamScore(weeklyTeamScore: WeeklyTeamScore): string {
+    return "(" + weeklyTeamScore.winCount + "-" + weeklyTeamScore.lossCount + "-" + weeklyTeamScore.tieCount + ")";
+
+  }
+
+  getFormattedWeeklyResultForTeamAndWeek(team: Team, week :number): void {
+    this.teamService.getWeeklyResultForTeamAndWeek(team.id, week).subscribe(
+      results => {
+        if (!results) { return; }
+        team.weeklyTeamScore = results;
+      }
+    );
   }
 
 }

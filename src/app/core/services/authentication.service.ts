@@ -15,7 +15,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private logger: LoggerService) { }
 
   authenticate(username: string, password: string): Observable<any> {
-    this.logger.log("AuthenticationService.authenticate");
     const loginRequest: LoginRequest = new LoginRequest(username, password);
     return this.http.post<JwtResponse>(this.serviceUrl, loginRequest);
   }

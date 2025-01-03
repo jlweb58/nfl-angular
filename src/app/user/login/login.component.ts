@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
               private logger: LoggerService) { }
 
   ngOnInit(): void {
-    this.logger.log('LoginComponent onInit')
     if (this.tokenStorageService.getToken()) {
       this.isLoggedIn = true;
       this.isError = false;
@@ -45,7 +44,6 @@ export class LoginComponent implements OnInit {
        this.isLoggedIn = true;
        this.isError = false;
        this.roles = this.tokenStorageService.getUser()!.roles;
-       this.logger.log('authenticated, about to navigate to home');
        this.router.navigate(['']);
       },
       error => {

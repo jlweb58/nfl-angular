@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@angular/material/prebuilt-themes/indigo-pink.css"; /* You can add global styles to this file, and also import other style files */
+
 .team-icon {
   width: 30px;
   height: 30px;
@@ -11,3 +12,8 @@
   opacity: 0.5; /* Optional: make it look dimmed */
   cursor: not-allowed; /* Indicate it's non-clickable */
 }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

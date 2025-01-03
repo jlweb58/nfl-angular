@@ -1,0 +1,42 @@
+
+
+.mat-toolbar {
+  background-color: #3679ab;
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-toolbar-single-row {
+  min-height: 24px;
+  max-height: 48px;
+  overflow-wrap: break-word;
+}
+
+.mat-button  {
+  color: black;
+  display: flex;
+
+}
+.mat-icon {
+  font-size: medium;
+}
+
+.mat-icon-button {
+  color: black;
+  display: flex;
+  min-width: 80px;
+  max-width: 150px;
+}
+
+
+.mat-menu-item {
+  height: 24px;
+  line-height: 24px;
+  display: flex;
+  min-width: 80px;
+
+}
+
+.menu-item-right {
+  padding-left: 50px;
+}

@@ -9,11 +9,15 @@
 <table mat-table [dataSource]="games">
   <ng-container matColumnDef="awayTeam">
     <th mat-header-cell *matHeaderCellDef>Away Team </th>
-    <td  mat-cell *matCellDef="let game"> {{game.awayTeam.name}} <img class="team-icon" src="assets/images/{{game.awayTeam.abbreviation}}.png" alt="Away team logo" /></td>
+    <td  mat-cell *matCellDef="let game"> {{game.awayTeam.name}} {{getFormattedWeeklyTeamScore(game.awayTeam.weeklyTeamScore)}} <img class="team-icon" src="assets/images/{{game.awayTeam.abbreviation}}.png" alt="Away team logo" /></td>
   </ng-container>
   <ng-container matColumnDef="homeTeam">
     <th mat-header-cell *matHeaderCellDef>Home Team </th>
-    <td mat-cell *matCellDef="let game"> {{game.homeTeam.name}} <img class="team-icon" src="assets/images/{{game.homeTeam.abbreviation}}.png" alt="Home team logo" /></td>
+    <td mat-cell *matCellDef="let game"> {{game.homeTeam.name}} {{getFormattedWeeklyTeamScore(game.homeTeam.weeklyTeamScore)}} <img class="team-icon" src="assets/images/{{game.homeTeam.abbreviation}}.png" alt="Home team logo" /></td>
+  </ng-container>
+  <ng-container matColumnDef="venue">
+    <th mat-header-cell *matHeaderCellDef>Venue </th>
+    <td mat-cell *matCellDef="let game"> {{game.venue.name}}</td>
   </ng-container>
   <ng-container matColumnDef="gameStartingTime">
     <th mat-header-cell *matHeaderCellDef>Game Start Time </th>

@@ -4,11 +4,11 @@
   </p>
 <mat-form-field >
     <mat-label>User Name (Email)</mat-label>
-    <input matInput name="username" [(ngModel)]="username">
+    <input matInput name="username" [(ngModel)]="username" class="keeper-ignore">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput type="password" name="password" [(ngModel)]="password" (keydown.enter)="checkLogin()">
+    <input matInput type="password" name="password" [(ngModel)]="password" (keydown.enter)="checkLogin()" class="keeper-ignore">
   </mat-form-field>
 </form>
   <mat-divider></mat-divider>
