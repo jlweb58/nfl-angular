@@ -37,6 +37,21 @@
 
 }
 
+.mat-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px;
+}
+
+.mat-mdc-button .profile-icon {
+  transform: scale(2.0);
+}
+
+/* If you need to push it to the right in your flex container */
+.mat-mdc-menu-trigger {
+  margin-left: auto;
+}
 .menu-item-right {
   padding-left: 50px;
 }
+

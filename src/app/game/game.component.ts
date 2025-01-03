@@ -17,6 +17,7 @@ import {MatIconButton} from '@angular/material/button';
 import {Team} from '../core/models/team.model';
 import {TeamService} from '../core/services/team.service';
 import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
+import {DateTime} from 'luxon';
 
 @Component({
   selector: 'app-game-component',
@@ -89,4 +90,5 @@ export class GameComponent implements OnInit {
     );
   }
 
+  protected readonly DateTime = DateTime;
 }

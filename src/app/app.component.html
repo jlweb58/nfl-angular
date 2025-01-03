@@ -11,10 +11,18 @@
     <mat-icon >sports_football</mat-icon>
     <span style="overflow-wrap: break-word">Games</span>
   </button>
-  <button mat-button routerLink="/logout" routerLinkActive="active">
-    <mat-icon >exit_to_app</mat-icon>
-    <span style="overflow-wrap: break-word">Logout</span>
+  <button mat-button [matMenuTriggerFor]="userProfile">
+    <mat-icon class="profile-icon">account_circle</mat-icon>
   </button>
+  <mat-menu #userProfile="matMenu">
+    <button mat-button routerLink="/logout" routerLinkActive="active">
+      <mat-icon >exit_to_app</mat-icon>
+      <span style="overflow-wrap: break-word">Logout</span>
+    </button>
+
+
+  </mat-menu>
+
 </mat-toolbar>
 <router-outlet></router-outlet>
 
