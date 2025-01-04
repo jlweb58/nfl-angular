@@ -5,19 +5,23 @@
   </button>
   <button mat-button routerLink="/teams" routerLinkActive="active">
     <mat-icon >group</mat-icon>
-    <span style="overflow-wrap: break-word">Teams</span>
+    <span>Teams</span>
   </button>
   <button mat-button routerLink="/games" routerLinkActive="active">
     <mat-icon >sports_football</mat-icon>
-    <span style="overflow-wrap: break-word">Games</span>
+    <span>Games</span>
   </button>
   <button mat-button [matMenuTriggerFor]="userProfile">
     <mat-icon class="profile-icon">account_circle</mat-icon>
   </button>
   <mat-menu #userProfile="matMenu">
-    <button mat-button routerLink="/logout" routerLinkActive="active">
+    <button mat-menu-item routerLink="/logout" routerLinkActive="active">
       <mat-icon >exit_to_app</mat-icon>
-      <span style="overflow-wrap: break-word">Logout</span>
+      <span>Logout</span>
+    </button>
+    <button mat-menu-item routerLink="/changePassword" routerLinkActive="active">
+      <mat-icon>lock</mat-icon>
+      <span>Change Password</span>
     </button>
 
 

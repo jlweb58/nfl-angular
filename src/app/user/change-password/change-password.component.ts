@@ -1,35 +1,47 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {LoggerService} from '../../core/services/logger.service';
 import {ChangePasswordRequest} from '../../core/models/change-password-request.model';
 import {UserService} from '../../core/services/user.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MustMatch} from '../../shared/validators/must-match.validator';
-import {Location} from '@angular/common';
+import {Location, NgIf} from '@angular/common';
+import {MatCard} from '@angular/material/card';
+import {MatError, MatFormField} from '@angular/material/form-field';
+import {MatInput} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
+import {MatLabel} from '@angular/material/form-field';
 
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
+  imports: [
+    ReactiveFormsModule,
+    MatCard,
+    MatFormField,
+    MatError,
+    MatInput,
+    MatButton,
+    MatLabel,
+    NgIf
+  ],
   styleUrls: ['./change-password.component.css']
 })
-export class ChangePasswordComponent implements OnInit {
+export class ChangePasswordComponent {
 
   changePasswordRequest: ChangePasswordRequest = {
     oldPassword: '',
     newPassword: '',
   };
 
+  changePasswordForm: FormGroup;
+
+  submitted: boolean = false;
+
   constructor(private logger: LoggerService,
               private userService: UserService,
               private formBuilder: FormBuilder,
-              private location: Location) { }
+              private location: Location) {
 
-  changePasswordForm: FormGroup;
-
-  submitted: boolean;
-
-
-
-  ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
         oldPassword: ['', Validators.required],
         newPassword: ['', Validators.required],
@@ -38,16 +50,17 @@ export class ChangePasswordComponent implements OnInit {
       {
         validator: MustMatch('newPassword', 'confirmPassword')
       });
+
   }
 
   // Easy access to form fields
-  get f() { return this.changePasswordForm.controls; }
+  get formFields() { return this.changePasswordForm.controls; }
 
   changePassword() {
     this.logger.log('Changing password');
     this.changePasswordRequest = {
-      oldPassword: this.f.oldPassword.value,
-      newPassword: this.f.newPassword.value
+      oldPassword: this.formFields['oldPassword'].value,
+      newPassword: this.formFields['newPassword'].value
     };
     this.userService.changePassword(this.changePasswordRequest);
   }

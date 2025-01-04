@@ -9,7 +9,7 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root'
 })
 export class UserService {
-  private serviceUrl = environment.baseUrl + '/nfl-survivor/user/password';
+  private serviceUrl = environment.baseUrl + '/nfl-survivor/users/password';
   private message: string;
 
   constructor(private logger: LoggerService, private http: HttpClient) {
@@ -23,10 +23,6 @@ export class UserService {
         data => {
           this.logger.log('Change password successful');
           this.message = data.message;
-        },
-        error => {
-          this.logger.log('Error changing password');
-          alert('Couldn\'t change password \n' + error);
         }
       );
   }

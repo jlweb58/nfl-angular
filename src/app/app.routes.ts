@@ -4,6 +4,7 @@ import {AuthGuardService} from './core/services/auth-guard.service';
 import {TeamComponent} from './team/team.component';
 import {LogoutComponent} from './user/logout/logout.component';
 import {GameComponent} from './game/game.component';
+import {ChangePasswordComponent} from './user/change-password/change-password.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'teams', pathMatch: 'full' },
@@ -11,4 +12,6 @@ export const routes: Routes = [
   { path: 'logout', component: LogoutComponent, canActivate: [AuthGuardService] },
   { path: 'teams', component: TeamComponent, canActivate: [AuthGuardService] },
   { path: 'games', component: GameComponent, canActivate: [AuthGuardService] },
+  { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService] },
+
 ];
