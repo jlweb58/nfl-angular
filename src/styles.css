@@ -3,7 +3,7 @@
 .team-icon {
   width: 30px;
   height: 30px;
-
+  vertical-align: middle;
 }
 
 .week-button-disabled {

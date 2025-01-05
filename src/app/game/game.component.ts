@@ -13,11 +13,11 @@ import {
 } from '@angular/material/table';
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {Team} from '../core/models/team.model';
-import {TeamService} from '../core/services/team.service';
 import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 import {DateTime} from 'luxon';
+import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
 
 @Component({
   selector: 'app-game-component',
@@ -34,7 +34,8 @@ import {DateTime} from 'luxon';
     MatRowDef,
     MatTable,
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    MatButton
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -45,7 +46,8 @@ export class GameComponent implements OnInit {
   columnsToDisplay :string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
   weekToDisplay:number = 1;
 
-  constructor(private logger: LoggerService, private gameService: GameService, private teamService: TeamService) {
+  constructor(private logger: LoggerService, private gameService: GameService,
+              private weeklyGameSelectionService: WeeklyGameSelectionService) {
     this.games = [];
   }
 
@@ -81,11 +83,10 @@ export class GameComponent implements OnInit {
 
   }
 
-  getFormattedWeeklyResultForTeamAndWeek(team: Team, week :number): void {
-    this.teamService.getWeeklyResultForTeamAndWeek(team.id, week).subscribe(
-      results => {
-        if (!results) { return; }
-        team.weeklyTeamScore = results;
+  setWeeklyPlayerPick(game :Game, team :Team) :void {
+    this.weeklyGameSelectionService.setWeeklyGameSelection(game, team).subscribe({
+        error: (e) => this.logger.log('Error: ' + e.message),
+        complete: () => this.logger.log('Pick succeeded'),
       }
     );
   }

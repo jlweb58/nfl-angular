@@ -6,7 +6,9 @@ import { catchError } from 'rxjs/operators';
 import {TokenStorageService} from '../services/token-storage.service';
 import {AuthInterceptor} from './auth.interceptor';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(private tokenStorageService: TokenStorageService) {}
 
@@ -17,12 +19,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         this.tokenStorageService.logout();
       }
 
-      const error = err.error.message || err.statusText;
-      return throwError(error);
+      const error = err.error || err.statusText;
+      return throwError(() => new Error(error));
     }));
   }
 }
-
-export const errorInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
-];
