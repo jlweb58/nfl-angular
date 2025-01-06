@@ -1,6 +1,6 @@
 
 export enum GameResult {
-  Win = 'Win',
-  Loss = 'Loss',
-  Tie = 'Tie'
+  WIN = 'WIN',
+  LOSS = 'LOSS',
+  TIE = 'TIE'
 }

@@ -1,0 +1,32 @@
+.label-win-result {
+  background: forestgreen;
+  padding: 5px;
+  color: yellow;
+  font-weight: bold;
+  border-radius: 5px;
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+}
+
+.label-loss-result {
+  background: darkred;
+  padding: 5px;
+  color: yellow;
+  font-weight: bold;
+  border-radius: 5px;
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+}
+
+.label-tie-result {
+  background: dimgray;
+  padding: 5px;
+  color: yellow;
+  font-weight: bold;
+  border-radius: 5px;
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+}

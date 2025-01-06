@@ -1,0 +1,29 @@
+<mat-card>
+  <h3>Manage Picks</h3>
+
+  <table mat-table [dataSource]="weeklyGameSelectionsForUser">
+    <ng-container matColumnDef="week">
+      <th mat-header-cell *matHeaderCellDef>Game Week</th>
+      <td  mat-cell *matCellDef="let selection" >{{selection.week}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="pickedTeam">
+      <th mat-header-cell *matHeaderCellDef>Picked Team</th>
+      <td mat-cell *matCellDef="let selection" >{{selection.winningTeamSelection.city}} {{selection.winningTeamSelection.name}}
+        <img class="team-icon" src="assets/images/{{selection.winningTeamSelection.abbreviation}}.png" alt="Home team logo" />
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="result">
+      <th mat-header-cell *matHeaderCellDef>Result</th>
+      <td mat-cell *matCellDef="let selection" ><span [ngClass]="getClassForResult(selection.gameResult)">{{selection.gameResult}}</span></td>
+    </ng-container>
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef>Final Score</th>
+      <td mat-cell *matCellDef="let selection">{{selection.selectedGame.awayPoints}}-{{selection.selectedGame.homePoints}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+
+</table>
+</mat-card>

@@ -5,6 +5,7 @@ import {TeamComponent} from './team/team.component';
 import {LogoutComponent} from './user/logout/logout.component';
 import {GameComponent} from './game/game.component';
 import {ChangePasswordComponent} from './user/change-password/change-password.component';
+import {ManagePicksComponent} from './user/picks/manage-picks.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'teams', pathMatch: 'full' },
@@ -13,5 +14,6 @@ export const routes: Routes = [
   { path: 'teams', component: TeamComponent, canActivate: [AuthGuardService] },
   { path: 'games', component: GameComponent, canActivate: [AuthGuardService] },
   { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService] },
+  { path: 'picks', component: ManagePicksComponent, canActivate: [AuthGuardService] },
 
 ];

@@ -4,15 +4,18 @@ import {GameResult} from './game-result.model';
 
 export class WeeklyGameSelection {
 
-  private game: Game;
+  game: Game;
 
-  private team: Team;
+  winningTeamSelection: Team;
 
-  private gameResult?: GameResult;
+  gameResult?: GameResult;
 
-  constructor(game: Game, team: Team) {
+  week: number;
+
+  constructor(game: Game, winningTeamSelection: Team) {
     this.game = game;
-    this.team = team;
+    this.winningTeamSelection = winningTeamSelection;
+    this.week = game.week;
   }
 
 }

@@ -18,6 +18,7 @@ import {Team} from '../core/models/team.model';
 import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 import {DateTime} from 'luxon';
 import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
+import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 
 @Component({
   selector: 'app-game-component',
@@ -45,6 +46,7 @@ export class GameComponent implements OnInit {
   games: Game[];
   columnsToDisplay :string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
   weekToDisplay:number = 1;
+  weeklyGameSelectionsForUser: WeeklyGameSelection[] = [];
 
   constructor(private logger: LoggerService, private gameService: GameService,
               private weeklyGameSelectionService: WeeklyGameSelectionService) {
@@ -53,6 +55,19 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadGames();
+    this.loadWeeklyGameSelections();
+  }
+
+  private loadWeeklyGameSelections() {
+    this.weeklyGameSelectionService.getAllForCurrentUser().subscribe(
+      results => {
+        if (!results) {
+          return;
+        }
+        this.weeklyGameSelectionsForUser = results;
+
+      }
+    );
   }
 
   private loadGames() {
@@ -64,6 +79,23 @@ export class GameComponent implements OnInit {
         this.games = results;
       }
     );
+  }
+
+
+  isGameAndTeamPickable(game: Game, team: Team): boolean {
+    (DateTime as any).now = () => DateTime.fromISO("2024-09-01T12:00:00.000Z");
+    const currentTime: DateTime = DateTime.now().toUTC();
+    const gameTime :DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
+    return currentTime < gameTime && !this.wasTeamAlreadySelected(team) && !this.isAlreadySelectionForWeek(game);
+
+  }
+
+  private wasTeamAlreadySelected(team: Team): boolean {
+    return this.weeklyGameSelectionsForUser.some((wgs) => wgs.winningTeamSelection.id === team.id);
+  }
+
+  private isAlreadySelectionForWeek(game: Game): boolean {
+    return this.weeklyGameSelectionsForUser.some((wgs) => wgs.week === game.week);
   }
 
   previousWeek(): void {
@@ -78,11 +110,6 @@ export class GameComponent implements OnInit {
     this.loadGames();
   }
 
-  getFormattedWeeklyTeamScore(weeklyTeamScore: WeeklyTeamScore): string {
-    return "(" + weeklyTeamScore.winCount + "-" + weeklyTeamScore.lossCount + "-" + weeklyTeamScore.tieCount + ")";
-
-  }
-
   setWeeklyPlayerPick(game :Game, team :Team) :void {
     this.weeklyGameSelectionService.setWeeklyGameSelection(game, team).subscribe({
         error: (e) => this.logger.log('Error: ' + e.message),
@@ -92,4 +119,5 @@ export class GameComponent implements OnInit {
   }
 
   protected readonly DateTime = DateTime;
+  protected readonly Team = Team;
 }

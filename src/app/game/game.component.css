@@ -10,3 +10,13 @@
   border-right: 2px solid #ccc; /* Add a right border */
 }
 
+.user-date-time {
+  font-style: italic;
+  font-size: small;
+}
+
+.pick-game-button:disabled {
+  background: gray;
+  float: right;
+
+}

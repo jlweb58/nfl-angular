@@ -13,13 +13,17 @@ import {Observable} from 'rxjs';
 })
 export class WeeklyGameSelectionService {
 
-  private serviceUrl = environment.baseUrl + '/nfl-survivor/weeklygameselections/';
+  private serviceUrl = environment.baseUrl + '/nfl-survivor/weeklygameselections';
 
   constructor(private http: HttpClient, private logger: LoggerService) {
   }
 
   setWeeklyGameSelection(game: Game, team: Team) : Observable<any>{
-    return this.http.post<WeeklyGameSelection>(this.serviceUrl + game.id + '/' + team.id, {});
+    return this.http.post<WeeklyGameSelection>(this.serviceUrl + '/' + game.id + '/' + team.id, {});
+  }
+
+  getAllForCurrentUser(): Observable<WeeklyGameSelection[]> {
+    return this.http.get<WeeklyGameSelection[]>(this.serviceUrl);
   }
 
 }
