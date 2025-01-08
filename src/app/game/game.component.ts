@@ -15,10 +15,11 @@ import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {Team} from '../core/models/team.model';
-import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 import {DateTime} from 'luxon';
 import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
 import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
+import {MatDialog} from '@angular/material/dialog';
+import {PickFeedbackComponent} from './pick-feedback.component';
 
 @Component({
   selector: 'app-game-component',
@@ -44,12 +45,13 @@ import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 export class GameComponent implements OnInit {
 
   games: Game[];
-  columnsToDisplay :string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
-  weekToDisplay:number = 1;
+  columnsToDisplay: string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
+  weekToDisplay: number = 1;
   weeklyGameSelectionsForUser: WeeklyGameSelection[] = [];
 
   constructor(private logger: LoggerService, private gameService: GameService,
-              private weeklyGameSelectionService: WeeklyGameSelectionService) {
+              private weeklyGameSelectionService: WeeklyGameSelectionService,
+              private dialog: MatDialog) {
     this.games = [];
   }
 
@@ -85,7 +87,7 @@ export class GameComponent implements OnInit {
   isGameAndTeamPickable(game: Game, team: Team): boolean {
     (DateTime as any).now = () => DateTime.fromISO("2024-09-01T12:00:00.000Z");
     const currentTime: DateTime = DateTime.now().toUTC();
-    const gameTime :DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
+    const gameTime: DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
     return currentTime < gameTime && !this.wasTeamAlreadySelected(team) && !this.isAlreadySelectionForWeek(game);
 
   }
@@ -99,21 +101,45 @@ export class GameComponent implements OnInit {
   }
 
   previousWeek(): void {
-    if (this.weekToDisplay == 1) { return; }
+    if (this.weekToDisplay == 1) {
+      return;
+    }
     this.weekToDisplay--;
     this.loadGames();
   }
 
   nextWeek(): void {
-    if (this.weekToDisplay == 18) { return; }
+    if (this.weekToDisplay == 18) {
+      return;
+    }
     this.weekToDisplay++;
     this.loadGames();
   }
 
-  setWeeklyPlayerPick(game :Game, team :Team) :void {
+  setWeeklyPlayerPick(game: Game, team: Team): void {
     this.weeklyGameSelectionService.setWeeklyGameSelection(game, team).subscribe({
-        error: (e) => this.logger.log('Error: ' + e.message),
-        complete: () => this.logger.log('Pick succeeded'),
+        next: () => {
+          this.dialog.open(PickFeedbackComponent, {
+            data: {
+              title: 'Pick succeeded',
+              message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' succeeded.',
+            },
+          }).afterClosed().subscribe(() => {
+            this.loadGames();
+            this.loadWeeklyGameSelections();// Refresh the data instead of reloading the page
+          });
+        },
+        error: (e) => {
+          this.dialog.open(PickFeedbackComponent, {
+            data: {
+              title: 'Pick failed',
+              message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' failed because ' + e.message,
+            },
+          });
+        },
+        complete: () => {
+          this.logger.log('Observable completed');
+        }
       }
     );
   }

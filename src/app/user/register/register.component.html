@@ -1,0 +1,35 @@
+<mat-card>
+  <form class="register-user-form" [formGroup]="registerUserForm">
+    <h3>Register New User</h3>
+
+    <mat-form-field>
+      <mat-label>Your Name</mat-label>
+      <input matInput name="name" formControlName="name" class="keeper-ignore">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput name="username" formControlName="username" class="keeper-ignore">
+      <div *ngIf="submitted && formFields['username'].errors">
+        <mat-error *ngIf="formFields['username'].errors?.['required']">New password is required</mat-error>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+      <div *ngIf="submitted && formFields['password'].errors">
+        <mat-error *ngIf="formFields['password'].errors?.['required']">Password is required</mat-error>
+        <mat-error *ngIf="formFields['password'].errors?.['mustMatch']">Passwords must match</mat-error>
+      </div>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Repeat password</mat-label>
+      <input matInput type="password" formControlName="confirmPassword">
+      <div *ngIf="submitted && formFields['confirmPassword'].errors" class="invalid-feedback">
+        <mat-error *ngIf="formFields['confirmPassword'].errors?.['required']">Confirm Password is required</mat-error>
+        <mat-error *ngIf="formFields['confirmPassword'].errors?.['mustMatch']">Passwords must match</mat-error>
+      </div>
+    </mat-form-field>
+    <button mat-raised-button color="primary"  class="register-user-button" (click)="onSubmit()">Register Me</button>
+  </form>
+</mat-card>

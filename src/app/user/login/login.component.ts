@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {AuthenticationService} from '../../core/services/authentication.service';
 import {TokenStorageService} from '../../core/services/token-storage.service';
 import {MatDividerModule} from '@angular/material/divider';
@@ -14,7 +14,7 @@ import {LoggerService} from '../../core/services/logger.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [MatDividerModule, FormsModule, MatFormFieldModule, CommonModule, MatInputModule, MatButton]
+  imports: [MatDividerModule, FormsModule, MatFormFieldModule, CommonModule, MatInputModule, MatButton, RouterLink, RouterOutlet]
 })
 export class LoginComponent implements OnInit {
 
