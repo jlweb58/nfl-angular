@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import {Component, Inject, ViewEncapsulation} from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogActions,
@@ -9,7 +9,7 @@ import {
 import {MatButton} from '@angular/material/button';
 
 @Component({
-  selector: 'app-pick-feedback-dialog',
+  selector: 'app-feedback-dialog',
   imports: [
     MatDialogTitle,
     MatDialogContent,
@@ -17,11 +17,11 @@ import {MatButton} from '@angular/material/button';
     MatButton,
     MatDialogClose
   ],
-  templateUrl: './pick-feedback.component.html',
-  styleUrls: ['./pick-feedback.component.css'],
-
+  templateUrl: './feedback-dialog.component.html',
+  styleUrls: ['./feedback-dialog.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
-  export class PickFeedbackComponent {
+  export class FeedbackDialog {
     constructor(@Inject(MAT_DIALOG_DATA) public data: {title: string; message: string}) {
     }
 }

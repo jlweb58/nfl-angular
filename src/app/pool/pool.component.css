@@ -1,0 +1,22 @@
+.floating-button-container {
+  position: fixed;
+  top: 50px; /* Adjust for padding */
+  left: 16px;  /* Adjust for padding */
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+button[mat-fab] {
+  width: 64px; /* Optional: Customize size */
+  height: 64px; /* Optional: Customize size */
+  font-size: 24px; /* Optional: Customize icon size */
+}
+
+.component-title {
+  text-align: center;
+  margin: 0 auto;
+  font-size: 2.0rem;
+  font-weight: bold;
+  display: block;
+  padding-bottom: 20px;
+  padding-top: 10px;
+}

@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user.model';
+import {UserRole} from '../models/user-role.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -31,5 +32,11 @@ export class TokenStorageService {
   public getUser(): User|null {
     let storedUser = sessionStorage.getItem(USER_KEY);
     return storedUser === null ? null : JSON.parse(storedUser);
+  }
+
+  public getUserRoles(): UserRole[] {
+    let currentUser  = this.getUser();
+    if (!currentUser) return [];
+    return currentUser.roles;
   }
 }

@@ -7,6 +7,8 @@ import {GameComponent} from './game/game.component';
 import {ChangePasswordComponent} from './user/change-password/change-password.component';
 import {ManagePicksComponent} from './user/picks/manage-picks.component';
 import {RegisterComponent} from './user/register/register.component';
+import {AdminComponent} from './admin/admin.component';
+import {PoolComponent} from './pool/pool.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'teams', pathMatch: 'full' },
@@ -17,4 +19,6 @@ export const routes: Routes = [
   { path: 'changePassword', component: ChangePasswordComponent, canActivate: [AuthGuardService] },
   { path: 'picks', component: ManagePicksComponent, canActivate: [AuthGuardService] },
   { path: 'register', component: RegisterComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService], data: {roles: ['ADMIN']} },
+  { path: 'pools', component: PoolComponent, canActivate: [AuthGuardService], data: {roles: ['ADMIN']} },
 ];

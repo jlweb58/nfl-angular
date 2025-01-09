@@ -1,8 +1,4 @@
 <mat-toolbar *ngIf="tokenStorageService.getUser()" color="primary" class="app-activity">
-  <button mat-button routerLink="/home" routerLinkActive="active">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-  </button>
   <button mat-button routerLink="/teams" routerLinkActive="active">
     <mat-icon >group</mat-icon>
     <span>Teams</span>
@@ -11,6 +7,19 @@
     <mat-icon >sports_football</mat-icon>
     <span>Games</span>
   </button>
+
+  <button mat-button [matMenuTriggerFor]="adminPanel" >
+    <mat-icon>admin_panel_settings</mat-icon>
+    <span>Admin Panel</span>
+  </button>
+  <mat-menu #adminPanel="matMenu">
+    <button mat-menu-item routerLink="/pools" routerLinkActive="active">
+      <mat-icon>touch_app</mat-icon>
+      <span>Pools</span>
+    </button>
+
+  </mat-menu>
+
   <button mat-button [matMenuTriggerFor]="userProfile">
     <mat-icon class="profile-icon">account_circle</mat-icon>
   </button>

@@ -10,7 +10,7 @@ import {UserService} from '../../core/services/user.service';
 import {MustMatch} from '../../shared/validators/must-match.validator';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
-import {RegistrationFeedbackComponent} from './registration-feedback.component';
+import {FeedbackDialog} from '../../core/components/feedback-dialog.component';
 
 @Component({
   selector: 'app-register',
@@ -70,22 +70,23 @@ export class RegisterComponent {
     }
     this.userService.registerUser(registerUserRequest).subscribe({
         next: (response) => {
-          this.dialog.open(RegistrationFeedbackComponent, {
+          this.dialog.open(FeedbackDialog, {
             data: {
               title: 'Registration Succeeded',
               message: 'You have successfully registered!',
-            }
+            }, panelClass: 'custom-dialog-container',
           }).afterClosed().subscribe(() => {
             this.router.navigate(['/login']);
           });
         },
         error: (error) => {
-          this.dialog.open(RegistrationFeedbackComponent, {
+          this.dialog.open(FeedbackDialog, {
             data: {
               title: 'Registration failed',
               message: 'You could not be registered because ' + error.message,
-            },
-          });
+            },  panelClass: 'custom-dialog-container',
+
+        });
           this.logger.log('Error while registering user ' + error.message);
         }
       }

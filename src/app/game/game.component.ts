@@ -19,7 +19,7 @@ import {DateTime} from 'luxon';
 import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
 import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 import {MatDialog} from '@angular/material/dialog';
-import {PickFeedbackComponent} from './pick-feedback.component';
+import {FeedbackDialog} from '../core/components/feedback-dialog.component';
 
 @Component({
   selector: 'app-game-component',
@@ -118,30 +118,27 @@ export class GameComponent implements OnInit {
 
   setWeeklyPlayerPick(game: Game, team: Team): void {
     this.weeklyGameSelectionService.setWeeklyGameSelection(game, team).subscribe({
-        next: () => {
-          this.dialog.open(PickFeedbackComponent, {
-            data: {
-              title: 'Pick succeeded',
-              message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' succeeded.',
-            },
-          }).afterClosed().subscribe(() => {
-            this.loadGames();
-            this.loadWeeklyGameSelections();// Refresh the data instead of reloading the page
-          });
-        },
-        error: (e) => {
-          this.dialog.open(PickFeedbackComponent, {
-            data: {
-              title: 'Pick failed',
-              message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' failed because ' + e.message,
-            },
-          });
-        },
-        complete: () => {
-          this.logger.log('Observable completed');
-        }
-      }
-    );
+      next: () => {
+        this.dialog.open(FeedbackDialog, {
+          data: {
+            title: 'Pick succeeded',
+            message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' succeeded.',
+          }, panelClass: 'custom-dialog-container',
+
+        }).afterClosed().subscribe(() => {
+          this.loadGames();
+          this.loadWeeklyGameSelections();// Refresh the data instead of reloading the page
+        });
+      },
+      error: (e) => {
+        this.dialog.open(FeedbackDialog, {
+          data: {
+            title: 'Pick failed',
+            message: 'Your pick of team ' + team.name + ' for week ' + game.week + ' failed because ' + e.message,
+          }, panelClass: 'custom-dialog-container',
+        });
+      },
+    });
   }
 
   protected readonly DateTime = DateTime;
