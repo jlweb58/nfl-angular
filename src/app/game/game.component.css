@@ -18,5 +18,9 @@
 .pick-game-button:disabled {
   background: gray;
   float: right;
+}
 
+.picked-game-for-week-button {
+  background: #3f51b5 !important;
+  float: right;
 }

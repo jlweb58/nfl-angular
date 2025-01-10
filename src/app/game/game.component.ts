@@ -100,6 +100,12 @@ export class GameComponent implements OnInit {
     return this.weeklyGameSelectionsForUser.some((wgs) => wgs.week === game.week);
   }
 
+  isPlayerPickForWeek(team: Team): boolean {
+    let currentWeekGameSelection = this.weeklyGameSelectionsForUser.find((wgs) => wgs.week === this.weekToDisplay)
+    if (!currentWeekGameSelection) { return false; }
+    return currentWeekGameSelection.winningTeamSelection.id === team.id;
+  }
+  
   previousWeek(): void {
     if (this.weekToDisplay == 1) {
       return;
