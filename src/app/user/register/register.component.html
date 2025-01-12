@@ -3,8 +3,14 @@
     <h3>Register New User</h3>
 
     <mat-form-field>
-      <mat-label>Your Name</mat-label>
+      <mat-label>User's Name</mat-label>
       <input matInput name="name" formControlName="name" class="keeper-ignore">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Pool</mat-label>
+      <mat-select formControlName="pool" name="pool">
+        <mat-option *ngFor="let pool of pools" [value]="pool.id">{{pool.name}}</mat-option>
+      </mat-select>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Email</mat-label>
@@ -30,6 +36,6 @@
         <mat-error *ngIf="formFields['confirmPassword'].errors?.['mustMatch']">Passwords must match</mat-error>
       </div>
     </mat-form-field>
-    <button mat-raised-button color="primary"  class="register-user-button" (click)="onSubmit()">Register Me</button>
+    <button mat-raised-button color="primary"  class="register-user-button" (click)="onSubmit()">Register User</button>
   </form>
 </mat-card>
