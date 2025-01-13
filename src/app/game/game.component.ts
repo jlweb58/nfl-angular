@@ -105,7 +105,7 @@ export class GameComponent implements OnInit {
     if (!currentWeekGameSelection) { return false; }
     return currentWeekGameSelection.winningTeamSelection.id === team.id;
   }
-  
+
   previousWeek(): void {
     if (this.weekToDisplay == 1) {
       return;

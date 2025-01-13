@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {LoggerService} from './logger.service';
 import {Team} from '../models/team.model';
 import {Game} from '../models/game.model';
@@ -33,6 +33,10 @@ export class WeeklyGameSelectionService {
 
   getAllForCurrentUser(): Observable<WeeklyGameSelection[]> {
     return this.http.get<WeeklyGameSelection[]>(this.serviceUrl);
+  }
+
+  getForUser(userId: number): Observable<WeeklyGameSelection[]> {
+    return this.http.get<WeeklyGameSelection[]>(this.serviceUrl + '/' + userId);
   }
 
 }

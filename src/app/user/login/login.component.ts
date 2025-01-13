@@ -14,7 +14,7 @@ import {LoggerService} from '../../core/services/logger.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [MatDividerModule, FormsModule, MatFormFieldModule, CommonModule, MatInputModule, MatButton, RouterLink, RouterOutlet]
+  imports: [MatDividerModule, FormsModule, MatFormFieldModule, CommonModule, MatInputModule, MatButton, RouterOutlet]
 })
 export class LoginComponent implements OnInit {
 

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {User} from '../models/user.model';
 import {UserRole} from '../models/user-role.model';
+import {Pool} from '../models/pool.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
@@ -38,5 +39,13 @@ export class TokenStorageService {
     let currentUser  = this.getUser();
     if (!currentUser) return [];
     return currentUser.roles;
+  }
+
+  public getUserPool(): Pool | null {
+    let currentUser  = this.getUser();
+    if (!currentUser) return null;
+    //needed because Array.at() can returned undefined; the
+    //?? operator coalesces undefined to null
+    return currentUser.pools.at(0) ?? null;
   }
 }

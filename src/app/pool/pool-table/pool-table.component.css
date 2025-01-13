@@ -1,0 +1,51 @@
+table[mat-table] {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.table-container {
+  max-height: 400px; /* Set the desired height for the scrollable area */
+  overflow-y: auto; /* Enable vertical scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling (if needed) */
+  border: 1px solid #ccc; /* Optional: Add a border to the table container */
+  padding: 8px; /* Optional: Add padding inside the scroll panel */
+}
+
+.pool-table-header {
+  border-color: #3f51b5;
+  border-style: dashed;
+}
+
+.pool-table-name-cell {
+
+
+}
+
+
+.pool-table-result-cell-won {
+
+}
+
+.pool-table-result-cell-lost {
+
+}
+
+mat-header-cell, mat-cell {
+  width: calc(100% / 18);
+  white-space: normal;
+  text-align: left;
+}
+
+.week-label {
+  display: block;
+}
+
+.week-number {
+  display: block;
+  font-weight: bold;
+}
+
+.week-header {
+  display: inline-block;
+  line-height: 1.2;
+}
