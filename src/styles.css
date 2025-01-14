@@ -4,6 +4,7 @@
   width: 30px;
   height: 30px;
   vertical-align: middle;
+  object-fit: contain;
 }
 
 .week-button-disabled {

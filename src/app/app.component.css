@@ -1,15 +1,25 @@
-
-
-.mat-toolbar {
-  background-color: #3679ab;
+.root-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.mat-toolbar-single-row {
-  min-height: 24px;
-  max-height: 48px;
-  overflow-wrap: break-word;
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+:host {
+  display: block;
 }
 
 .mat-button  {
@@ -28,19 +38,12 @@
   max-width: 150px;
 }
 
-
 .mat-menu-item {
   height: 24px;
   line-height: 24px;
   display: flex;
   min-width: 80px;
 
-}
-
-.mat-toolbar {
-  display: flex;
-  justify-content: flex-start;
-  padding: 10px;
 }
 
 .mat-mdc-button .profile-icon {
@@ -54,4 +57,3 @@
 .menu-item-right {
   padding-left: 50px;
 }
-

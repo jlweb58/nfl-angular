@@ -11,8 +11,10 @@ import {
   MatTableDataSource
 } from '@angular/material/table';
 import {User} from '../../core/models/user.model';
-import {NgForOf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {WeeklyGameSelectionService} from '../../core/services/weekly-game-selection.service';
+import {LoggerService} from '../../core/services/logger.service';
+import {WeeklyGameSelection} from '../../core/models/weekly-game-selection.model';
 
 @Component({
   selector: 'app-pool-table',
@@ -28,6 +30,8 @@ import {WeeklyGameSelectionService} from '../../core/services/weekly-game-select
     MatRow,
     MatHeaderRowDef,
     MatRowDef,
+    NgIf,
+    NgClass,
   ],
   templateUrl: './pool-table.component.html',
   styleUrl: './pool-table.component.css'
@@ -40,9 +44,11 @@ export class PoolTableComponent implements OnInit {
   weeks = Array.from({length: 18}, (_, i) => `week${i + 1}`);
 
   constructor(private poolService: PoolService, private tokenStorageService: TokenStorageService,
-              private weeklyGameSelectionService: WeeklyGameSelectionService) {}
+              private weeklyGameSelectionService: WeeklyGameSelectionService,
+              private logger: LoggerService) { }
 
   ngOnInit(): void {
+    this.logger.log('pool table component');
     this.pool = this.tokenStorageService.getUserPool();
     this.dataSource = new MatTableDataSource(this.pool?.poolMembers);
     this.initializeWeeklyGameSelections();
@@ -60,6 +66,17 @@ export class PoolTableComponent implements OnInit {
         }
       );
     })
+  }
+
+  getClassForSelection(userWeeklyPick: WeeklyGameSelection): string {
+   if (!userWeeklyPick || !userWeeklyPick.gameResult) {
+      return '';
+    }
+    switch (userWeeklyPick.gameResult) {
+      case 'WIN': return 'pool-table-result-cell-won';
+      case 'LOSS': return 'pool-table-result-cell-lost';
+    }
+    return '';
   }
 
 }

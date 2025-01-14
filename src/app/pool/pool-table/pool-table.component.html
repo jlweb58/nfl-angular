@@ -1,8 +1,9 @@
 <div class="table-container">
+  <div class="table-scroll">
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z4">
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef class="pool-table-header"> Name </th>
-    <td mat-cell *matCellDef="let user"> {{user.name}}</td>
+    <th mat-header-cell *matHeaderCellDef class="pool-table-header"> Player </th>
+    <td mat-cell *matCellDef="let user" class="user-name"> {{user.name}}</td>
   </ng-container>
 
   <ng-container *ngFor="let week of weeks; let weekIndex = index" [matColumnDef]="week">
@@ -12,11 +13,15 @@
       <span class="week-number">{{weekIndex + 1}} </span>
       </div>
     </th>
-    <td mat-cell *matCellDef="let user">
-        {{user.weeklyGameSelections[weekIndex]?.winningTeamSelection.name}}
+    <td mat-cell *matCellDef="let user" [ngClass]="getClassForSelection(user?.weeklyGameSelections[weekIndex])">
+      <div class="week-content">
+        <span class="week-result-text">{{user.weeklyGameSelections[weekIndex]?.winningTeamSelection.name}}</span>
+        <img *ngIf="user.weeklyGameSelections[weekIndex]?.winningTeamSelection" class="pool-team-icon" src="assets/images/{{user.weeklyGameSelections[weekIndex]?.winningTeamSelection.abbreviation}}.png" />
+      </div>
     </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+</div>
 </div>

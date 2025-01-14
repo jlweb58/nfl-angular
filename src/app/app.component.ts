@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {MatToolbar} from '@angular/material/toolbar';
+import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {TokenStorageService} from './core/services/token-storage.service';
@@ -14,6 +14,7 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
     RouterLink,
     RouterLinkActive,
     MatToolbar,
+    MatToolbarRow,
     MatIcon,
     MatButton,
     RouterLink,

@@ -1,4 +1,5 @@
-<mat-toolbar *ngIf="tokenStorageService.getUser()" color="primary" class="app-activity">
+<div class="root-container">
+<mat-toolbar *ngIf="tokenStorageService.getUser()" color="primary">
   <button mat-button routerLink="/teams" routerLinkActive="active">
     <mat-icon >group</mat-icon>
     <span>Teams</span>
@@ -43,10 +44,10 @@
       <mat-icon >exit_to_app</mat-icon>
       <span>Logout</span>
     </button>
-
-
   </mat-menu>
-
 </mat-toolbar>
-<router-outlet></router-outlet>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
 
+</div>
