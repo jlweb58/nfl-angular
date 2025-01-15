@@ -14,7 +14,6 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
     RouterLink,
     RouterLinkActive,
     MatToolbar,
-    MatToolbarRow,
     MatIcon,
     MatButton,
     RouterLink,

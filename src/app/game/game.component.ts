@@ -3,13 +3,13 @@ import {Game} from '../core/models/game.model';
 import {LoggerService} from '../core/services/logger.service';
 import {GameService} from '../core/services/game.service';
 import {
-  MatCell,
-  MatCellDef,
+  MatCell, MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
-  MatHeaderRow,
-  MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef,
+  MatRow, MatRowDef,
+  MatTable
 } from '@angular/material/table';
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
@@ -20,24 +20,27 @@ import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection
 import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 import {MatDialog} from '@angular/material/dialog';
 import {FeedbackDialog} from '../core/components/feedback-dialog.component';
+import {TokenStorageService} from '../core/services/token-storage.service';
+import {User} from '../core/models/user.model';
+import {PlayerStatus} from '../core/models/player-status.model';
 
 @Component({
   selector: 'app-game-component',
   imports: [
     CommonModule,
     MatCell,
-    MatCellDef,
     MatColumnDef,
     MatHeaderCell,
-    MatHeaderCellDef,
     MatHeaderRow,
-    MatHeaderRowDef,
     MatRow,
-    MatRowDef,
     MatTable,
     MatIcon,
     MatIconButton,
-    MatButton
+    MatButton,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRowDef,
+    MatRowDef
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -51,7 +54,7 @@ export class GameComponent implements OnInit {
 
   constructor(private logger: LoggerService, private gameService: GameService,
               private weeklyGameSelectionService: WeeklyGameSelectionService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog, private tokenStorageService: TokenStorageService,) {
     this.games = [];
   }
 
@@ -85,11 +88,16 @@ export class GameComponent implements OnInit {
 
 
   isGameAndTeamPickable(game: Game, team: Team): boolean {
+    if (this.isCurrentUserEliminated()) { return false; }
     (DateTime as any).now = () => DateTime.fromISO("2024-09-01T12:00:00.000Z");
     const currentTime: DateTime = DateTime.now().toUTC();
     const gameTime: DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
     return currentTime < gameTime && !this.wasTeamAlreadySelected(team) && !this.isAlreadySelectionForWeek(game);
+  }
 
+  private isCurrentUserEliminated(): boolean {
+    let currentUser: User = <User>this.tokenStorageService.getUser();
+    return currentUser.playerStatus === PlayerStatus.ELIMINATED;
   }
 
   private wasTeamAlreadySelected(team: Team): boolean {

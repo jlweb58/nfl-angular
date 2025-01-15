@@ -24,14 +24,12 @@ table.mat-table {
 .week-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.week-label {
+  align-items: start ;
 }
 
 .week-number {
   font-weight: bold;
+
 }
 
 .user-name {
@@ -63,19 +61,13 @@ mat-row {
   display: table-row; /* Ensures proper row layout */
 }
 
-.pool-table-name-cell {
-
-
-}
-
-
 .pool-table-result-cell-won {
-  background: green;
+  background: rgba(0, 128, 0, 0.69);
 
 }
 
 .pool-table-result-cell-lost {
-  background: red;
+  background: #c51313;
 }
 
 

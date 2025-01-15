@@ -1,6 +1,7 @@
 import {Pool} from './pool.model';
 import {UserRole} from './user-role.model';
 import {WeeklyGameSelection} from './weekly-game-selection.model';
+import {PlayerStatus} from './player-status.model';
 
 export interface User {
   id: number;
@@ -9,4 +10,5 @@ export interface User {
   roles: UserRole[];
   pools: Pool[];
   weeklyGameSelections: WeeklyGameSelection[];
+  playerStatus: PlayerStatus;
 }
