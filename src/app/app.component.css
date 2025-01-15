@@ -1,3 +1,4 @@
+
 .root-container {
   display: flex;
   flex-direction: column;
@@ -43,7 +44,16 @@ mat-toolbar {
   line-height: 24px;
   display: flex;
   min-width: 80px;
+}
 
+.user-profile {
+  margin-left: auto;
+  display: flex;
+  align-items: center
+}
+
+.profile-icon-text {
+  font-size: smaller;
 }
 
 .mat-mdc-button .profile-icon {
@@ -56,4 +66,14 @@ mat-toolbar {
 }
 .menu-item-right {
   padding-left: 50px;
+}
+
+.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #3f51b5 ;
+}
+
+.mat-menu-item.active {
+  background-color: rgba(0, 0, 0, 0.04);  /* subtle dark overlay */
+  font-weight: bold;
 }

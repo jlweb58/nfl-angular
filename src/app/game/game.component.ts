@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Game} from './game.model';
 import {LoggerService} from '../core/services/logger.service';
 import {GameService} from '../core/services/game.service';
@@ -84,6 +84,14 @@ export class GameComponent implements OnInit {
         this.games = results;
       }
     );
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    switch(event.key) {
+      case 'ArrowLeft': this.previousWeek(); break;
+      case 'ArrowRight': this.nextWeek(); break;
+    }
   }
 
 

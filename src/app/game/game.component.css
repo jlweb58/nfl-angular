@@ -1,5 +1,6 @@
 .pick-game-button {
   background: forestgreen;
+  color: yellow;
   float: right;
 }
 
@@ -17,10 +18,12 @@
 
 .pick-game-button:disabled {
   background: gray;
+  color: white;
   float: right;
 }
 
 .picked-game-for-week-button {
   background: #3f51b5 !important;
+  color: white;
   float: right;
 }
