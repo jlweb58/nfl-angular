@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Pool} from '../../core/models/pool.model';
+import {Pool} from '../pool.model';
 import {PoolService} from '../../core/services/pool.service';
 import {TokenStorageService} from '../../core/services/token-storage.service';
 import {
@@ -10,7 +10,7 @@ import {
   MatTable,
   MatTableDataSource
 } from '@angular/material/table';
-import {User} from '../../core/models/user.model';
+import {User} from '../../user/user.model';
 import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {WeeklyGameSelectionService} from '../../core/services/weekly-game-selection.service';
 import {LoggerService} from '../../core/services/logger.service';

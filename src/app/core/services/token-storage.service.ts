@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {User} from '../models/user.model';
-import {UserRole} from '../models/user-role.model';
-import {Pool} from '../models/pool.model';
+import {User} from '../../user/user.model';
+import {UserRole} from '../../user/user-role.model';
+import {Pool} from '../../pool/pool.model';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';

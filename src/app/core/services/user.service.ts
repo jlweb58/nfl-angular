@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {LoggerService} from './logger.service';
-import {ChangePasswordRequest} from '../models/change-password-request.model';
-import {ChangePasswordResponse} from '../models/change-password-response.model';
+import {ChangePasswordRequest} from '../../user/change-password/change-password-request.model';
+import {ChangePasswordResponse} from '../../user/change-password/change-password-response.model';
 import {environment} from '../../../environments/environment';
-import {RegisterUserRequest} from '../models/register-user-request.model';
-import {RegisterUserResponse} from '../models/register-user-response.model';
+import {RegisterUserRequest} from '../../user/register/register-user-request.model';
+import {RegisterUserResponse} from '../../user/register/register-user-response.model';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 

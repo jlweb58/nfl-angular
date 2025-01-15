@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
 import {FeedbackDialog} from '../../core/components/feedback-dialog.component';
 import {MatOption, MatSelect} from '@angular/material/select';
-import {Pool} from '../../core/models/pool.model';
+import {Pool} from '../../pool/pool.model';
 import {PoolService} from '../../core/services/pool.service';
 
 @Component({

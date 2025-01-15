@@ -6,7 +6,7 @@ import {MatButton} from '@angular/material/button';
 import {TokenStorageService} from './core/services/token-storage.service';
 import {CommonModule} from '@angular/common';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
-import {UserRole} from './core/models/user-role.model';
+import {UserRole} from './user/user-role.model';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,6 @@
 import {DateTime} from 'luxon';
-import {Team} from './team.model';
-import {Stadium} from './stadium.model';
+import {Team} from '../team/team.model';
+import {Stadium} from '../core/models/stadium.model';
 
 export class Game {
 

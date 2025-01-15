@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {TokenStorageService} from './token-storage.service';
 import {LoggerService} from './logger.service';
-import {UserRole} from '../models/user-role.model';
+import {UserRole} from '../../user/user-role.model';
 
 @Injectable({
   providedIn: 'root'

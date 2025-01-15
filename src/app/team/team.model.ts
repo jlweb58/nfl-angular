@@ -1,4 +1,4 @@
-import {WeeklyTeamScore} from './weekly-team-score.model';
+import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 
 export class Team {
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {LoggerService} from '../core/services/logger.service';
 import {TeamService} from '../core/services/team.service';
-import { Team } from '../core/models/team.model';
+import { Team } from './team.model';
 import {
   MatCell,
   MatCellDef,

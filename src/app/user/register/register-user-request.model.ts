@@ -1,4 +1,4 @@
-import {Pool} from './pool.model';
+import {Pool} from '../../pool/pool.model';
 
 export interface RegisterUserRequest {
   name: string;

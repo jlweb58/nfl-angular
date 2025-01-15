@@ -9,7 +9,7 @@ import {
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
-import {Pool} from '../core/models/pool.model';
+import {Pool} from '../pool.model';
 import {MatButton} from '@angular/material/button';
 
 

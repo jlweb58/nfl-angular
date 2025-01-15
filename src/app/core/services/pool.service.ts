@@ -3,9 +3,9 @@ import {LoggerService} from './logger.service';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {map, Observable, of, tap} from 'rxjs';
-import {Pool} from '../models/pool.model';
+import {Pool} from '../../pool/pool.model';
 import {catchError} from 'rxjs/operators';
-import {User} from '../models/user.model';
+import {User} from '../../user/user.model';
 
 @Injectable({
   providedIn: 'root'

@@ -13,8 +13,8 @@ import {
   MatRow, MatRowDef,
   MatTable
 } from '@angular/material/table';
-import {Team} from '../../core/models/team.model';
-import {GameResult} from '../../core/models/game-result.model';
+import {Team} from '../../team/team.model';
+import {GameResult} from '../../game/game-result.model';
 import {NgClass} from '@angular/common';
 
 @Component({

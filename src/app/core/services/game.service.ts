@@ -3,7 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoggerService} from './logger.service';
 import {Observable} from 'rxjs';
-import {Game} from '../models/game.model';
+import {Game} from '../../game/game.model';
 
 
 @Injectable({

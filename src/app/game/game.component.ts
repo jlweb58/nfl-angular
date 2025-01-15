@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Game} from '../core/models/game.model';
+import {Game} from './game.model';
 import {LoggerService} from '../core/services/logger.service';
 import {GameService} from '../core/services/game.service';
 import {
@@ -14,15 +14,15 @@ import {
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {Team} from '../core/models/team.model';
+import {Team} from '../team/team.model';
 import {DateTime} from 'luxon';
 import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
 import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 import {MatDialog} from '@angular/material/dialog';
 import {FeedbackDialog} from '../core/components/feedback-dialog.component';
 import {TokenStorageService} from '../core/services/token-storage.service';
-import {User} from '../core/models/user.model';
-import {PlayerStatus} from '../core/models/player-status.model';
+import {User} from '../user/user.model';
+import {PlayerStatus} from '../user/player-status.model';
 
 @Component({
   selector: 'app-game-component',

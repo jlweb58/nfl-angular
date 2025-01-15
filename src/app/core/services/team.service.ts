@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {LoggerService} from './logger.service';
-import {Team} from '../models/team.model';
+import {Team} from '../../team/team.model';
 import {Observable} from 'rxjs';
 import {WeeklyTeamScore} from '../models/weekly-team-score.model';
 

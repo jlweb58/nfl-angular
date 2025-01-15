@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Pool} from '../core/models/pool.model';
+import {Pool} from './pool.model';
 import {PoolService} from '../core/services/pool.service';
 import {LoggerService} from '../core/services/logger.service';
 import {MatDialog} from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import {
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
 import {MatFabButton} from '@angular/material/button';
-import {PoolCreateDialogComponent} from './pool-create-dialog.component';
+import {PoolCreateDialogComponent} from './pool-create-dialog/pool-create-dialog.component';
 
 @Component({
   selector: 'app-pool',
