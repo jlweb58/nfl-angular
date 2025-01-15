@@ -32,13 +32,17 @@ export class TokenStorageService {
 
   public getUser(): User|null {
     let storedUser = sessionStorage.getItem(USER_KEY);
-    return storedUser === null ? null : JSON.parse(storedUser);
+    if (storedUser === null) {
+      return null;
+    }
+    let parsedUser: User = JSON.parse(storedUser);
+    return parsedUser;
   }
 
   public getUserRoles(): UserRole[] {
     let currentUser  = this.getUser();
     if (!currentUser) return [];
-    return currentUser.roles;
+    return currentUser.userRoles;
   }
 
   public getUserPool(): Pool | null {

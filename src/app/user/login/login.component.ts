@@ -33,17 +33,17 @@ export class LoginComponent implements OnInit {
     if (this.tokenStorageService.getToken()) {
       this.isLoggedIn = true;
       this.isError = false;
-      this.roles = this.tokenStorageService.getUser()!.roles;
+      this.roles = this.tokenStorageService.getUser()!.userRoles;
     }
   }
 
   checkLogin(): void {
     this.authenticationService.authenticate(this.username, this.password).subscribe(jwtResponse => {
        this.tokenStorageService.saveToken(jwtResponse.accessToken);
-       this.tokenStorageService.saveUser(jwtResponse);
+       this.tokenStorageService.saveUser(jwtResponse.user);
        this.isLoggedIn = true;
        this.isError = false;
-       this.roles = this.tokenStorageService.getUser()!.roles;
+       this.roles = this.tokenStorageService.getUser()!.userRoles;
        this.router.navigate(['']);
       },
       error => {

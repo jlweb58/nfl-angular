@@ -1,15 +1,6 @@
-export class JwtResponse {
-  token: string;
-  type: string;
-  id: number;
-  username: string;
-  roles: string[];
+import {User} from '../../user/user.model';
 
-  constructor() {
-    this.type = 'Bearer';
-    this.token = '';
-    this.id = 0;
-    this.username = '';
-    this.roles = [];
-  }
+export interface JwtResponse {
+  accessToken: string;
+  user: User;
 }

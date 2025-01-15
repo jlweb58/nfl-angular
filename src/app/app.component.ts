@@ -7,6 +7,7 @@ import {TokenStorageService} from './core/services/token-storage.service';
 import {CommonModule} from '@angular/common';
 import {MatMenu, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {UserRole} from './user/user-role.model';
+import {User} from './user/user.model';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,10 @@ export class AppComponent {
 
   isCurrentUserAdmin(): boolean {
     return this.tokenStorageService.getUserRoles().some((role) => role === UserRole.ADMIN);
+  }
+
+  getCurrentUser(): User | null {
+    return this.tokenStorageService.getUser();
   }
 
 }

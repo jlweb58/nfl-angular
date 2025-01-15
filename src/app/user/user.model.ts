@@ -6,8 +6,11 @@ import {PlayerStatus} from './player-status.model';
 export interface User {
   id: number;
   authenticated: boolean;
+  eliminated: boolean;
+  password: string;
   name: string;
-  roles: UserRole[];
+  email: string;
+  userRoles: UserRole[];
   pools: Pool[];
   weeklyGameSelections: WeeklyGameSelection[];
   playerStatus: PlayerStatus;

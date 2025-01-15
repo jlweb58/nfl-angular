@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LoggerService} from './logger.service';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {map, Observable, of, tap} from 'rxjs';
+import {Observable, of, tap} from 'rxjs';
 import {Pool} from '../../pool/pool.model';
 import {catchError} from 'rxjs/operators';
-import {User} from '../../user/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +15,8 @@ export class PoolService {
   private poolsCache: Pool[] | null = null;
   private cacheValid: boolean = false;
 
-  constructor(private http: HttpClient, private logger: LoggerService) { }
+  constructor(private http: HttpClient, private logger: LoggerService) {
+  }
 
   getPools(): Observable<Pool[]> {
     if (this.cacheValid && this.poolsCache) {
@@ -46,18 +46,15 @@ export class PoolService {
     );
   }
 
-  isUserInPool(user: User, poolId: number): Observable<boolean> {
-    return this.getPools().pipe(
-      map((pools) => {
-        return pools.some((pool) => pool.id === poolId && pool.poolMembers.includes(user));
-      }),
+  getPoolsForUser(userId: number): Observable<Pool[]> {
+    return this.http.get<Pool[]>(this.serviceUrl + '/' + userId).pipe(
+      tap((pools: Pool[]) => {}),
       catchError((error) => {
-        this.logger.log('Unexpected error checking pool membership ' + error.toString());
+        this.logger.log('Error loading pools for user ' + error.toString());
         throw error;
       })
     );
   }
-
 
   private invalidateCache(): void {
     this.cacheValid = false;

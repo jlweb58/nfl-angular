@@ -49,10 +49,18 @@ export class PoolTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.logger.log('pool table component');
-    this.pool = this.tokenStorageService.getUserPool();
-    this.dataSource = new MatTableDataSource(this.pool?.poolMembers);
-    this.initializeWeeklyGameSelections();
-    this.displayedColumns = ['name', ...this.weeks];
+    let currentUser: User | null = this.tokenStorageService.getUser();
+    this.poolService.getPoolsForUser(<number>currentUser?.id).subscribe(
+      results => {
+        if (!results) {
+          return;
+        }
+        this.pool = results[0];
+        this.dataSource = new MatTableDataSource(this.pool?.poolMembers);
+        this.initializeWeeklyGameSelections();
+        this.displayedColumns = ['name', ...this.weeks];
+      }
+    );
   }
 
   private initializeWeeklyGameSelections(): void {

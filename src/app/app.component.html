@@ -33,6 +33,8 @@
   <button mat-button [matMenuTriggerFor]="userProfile">
     <mat-icon class="profile-icon">account_circle</mat-icon>
   </button>
+  <span>{{getCurrentUser()?.name}}</span>
+
   <mat-menu #userProfile="matMenu">
     <button mat-menu-item routerLink="/picks" routerLinkActive="active">
       <mat-icon>touch_app</mat-icon>
