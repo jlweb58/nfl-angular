@@ -2,7 +2,7 @@ import {DateTime} from 'luxon';
 import {Team} from '../team/team.model';
 import {Stadium} from '../core/models/stadium.model';
 
-export class Game {
+export interface Game {
 
   id: number;
   espnId: number;
@@ -15,21 +15,4 @@ export class Game {
   awayPoints: number;
   pointSpread: number;
   venue: Stadium;
-
-
-  constructor(id: number, espnId: number, gameStartingTime: DateTime, homeTeam: Team, awayTeam: Team,
-              week: number, year: number, homePoints: number, awayPoints: number, pointSpread: number,
-              venue: Stadium) {
-    this.id = id;
-    this.espnId = espnId;
-    this.startTime = gameStartingTime;
-    this.homeTeam = homeTeam;
-    this.awayTeam = awayTeam;
-    this.week = week;
-    this.year = year;
-    this.homePoints = homePoints;
-    this.awayPoints = awayPoints;
-    this.pointSpread = pointSpread;
-    this.venue = venue;
-  }
 }

@@ -1,5 +1,5 @@
-<h2>Games </h2>
-
+<h2>Games </h2><span>{{currentDateTime$ | async}}</span>
+<span>Active week: {{activeGameWeek$ | async}}</span>
 <div class = "calendar-header">
   <button mat-icon-button (click)="previousWeek()" [disabled]="(weekToDisplay==1)" [ngClass]="{ 'week-button-disabled': (weekToDisplay==1) }"><mat-icon>keyboard_arrow_left</mat-icon></button>
   <button mat-icon-button (click)="nextWeek()" [disabled]="(weekToDisplay==18)" [ngClass]="{ 'week-button-disabled': (weekToDisplay==18) }"><mat-icon>keyboard_arrow_right</mat-icon></button>
@@ -9,26 +9,26 @@
 <table mat-table [dataSource]="games">
   <ng-container matColumnDef="awayTeam">
     <th mat-header-cell *matHeaderCellDef>Away Team </th>
-    <td  mat-cell *matCellDef="let game" class="team-table-cell">{{game.awayTeam.city}} {{game.awayTeam.name}} {{Team.getFormattedWeeklyTeamScore(game.awayTeam.weeklyTeamScore)}}
+    <td  mat-cell *matCellDef="let game" class="team-table-cell">{{game.awayTeam.city}} {{game.awayTeam.name}} {{game.awayTeam.weeklyTeamScore?.toString()}}
       <img class="team-icon" src="assets/images/{{game.awayTeam.abbreviation}}.png" alt="Away team logo" />
-      <button mat-raised-button [ngClass]="isPlayerPickForWeek(game.awayTeam) ? 'picked-game-for-week-button' : 'pick-game-button'" [disabled]="!isGameAndTeamPickable(game, game.awayTeam)"
+      <button mat-raised-button [ngClass]="isPlayerPickForWeek(game.awayTeam) ? 'picked-game-for-week-button' : 'pick-game-button'" [disabled]="!(isGameAndTeamPickable(game, game.awayTeam) | async)"
               (click)="setWeeklyPlayerPick(game, game.awayTeam)">
       <span *ngIf="isPlayerPickForWeek(game.awayTeam)">My Pick</span>
-        <span *ngIf="isGameAndTeamPickable(game, game.awayTeam)">Pick</span>
-        <span *ngIf="!isGameAndTeamPickable(game, game.awayTeam) && !isPlayerPickForWeek(game.awayTeam)">---</span>
+        <span *ngIf="isGameAndTeamPickable(game, game.awayTeam) | async">Pick</span>
+        <span *ngIf="!(isGameAndTeamPickable(game, game.awayTeam) | async) && !isPlayerPickForWeek(game.awayTeam)">---</span>
       </button>
 
     </td>
   </ng-container>
   <ng-container matColumnDef="homeTeam">
     <th mat-header-cell *matHeaderCellDef>Home Team </th>
-    <td mat-cell *matCellDef="let game" class="team-table-cell">{{game.homeTeam.city}}  {{game.homeTeam.name}} {{Team.getFormattedWeeklyTeamScore(game.homeTeam.weeklyTeamScore)}}
+    <td mat-cell *matCellDef="let game" class="team-table-cell">{{game.homeTeam.city}}  {{game.homeTeam.name}} {{game.homeTeam.weeklyTeamScore?.toString()}}
       <img class="team-icon" src="assets/images/{{game.homeTeam.abbreviation}}.png" alt="Home team logo" />
-      <button mat-raised-button [ngClass]="isPlayerPickForWeek(game.homeTeam) ? 'picked-game-for-week-button' : 'pick-game-button'" [disabled]="!isGameAndTeamPickable(game, game.homeTeam)"
+      <button mat-raised-button [ngClass]="isPlayerPickForWeek(game.homeTeam) ? 'picked-game-for-week-button' : 'pick-game-button'" [disabled]="!(isGameAndTeamPickable(game, game.homeTeam) | async)"
               (click)="setWeeklyPlayerPick(game, game.homeTeam)">
         <span *ngIf="isPlayerPickForWeek(game.homeTeam)">My Pick</span>
-        <span *ngIf="isGameAndTeamPickable(game, game.homeTeam)">Pick</span>
-        <span *ngIf="!isGameAndTeamPickable(game, game.homeTeam) && !isPlayerPickForWeek(game.homeTeam)">---</span>
+        <span *ngIf="isGameAndTeamPickable(game, game.homeTeam) | async">Pick</span>
+        <span *ngIf="!(isGameAndTeamPickable(game, game.homeTeam)  | async) && !isPlayerPickForWeek(game.homeTeam)">---</span>
       </button>
     </td>
   </ng-container>

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
@@ -28,11 +28,9 @@ import {User} from './user/user.model';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
-export class AppComponent {
-  tokenStorageService: TokenStorageService;
+export class AppComponent  {
 
-  constructor(tokenStorageService: TokenStorageService) {
-    this.tokenStorageService = tokenStorageService;
+  constructor(protected tokenStorageService: TokenStorageService) {
   }
 
   isCurrentUserAdmin(): boolean {

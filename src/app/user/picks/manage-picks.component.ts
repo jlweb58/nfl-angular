@@ -74,6 +74,4 @@ export class ManagePicksComponent implements OnInit {
 
   }
 
-
-  protected readonly Team = Team;
 }

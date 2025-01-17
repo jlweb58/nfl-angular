@@ -48,7 +48,6 @@ export class PoolTableComponent implements OnInit {
               private logger: LoggerService) { }
 
   ngOnInit(): void {
-    this.logger.log('pool table component');
     let currentUser: User | null = this.tokenStorageService.getUser();
     this.poolService.getPoolsForUser(<number>currentUser?.id).subscribe(
       results => {

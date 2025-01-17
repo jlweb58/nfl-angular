@@ -35,7 +35,7 @@ import {CommonModule} from '@angular/common';
 export class TeamComponent implements OnInit {
 
   teams: Team[];
-  columnsToDisplay = ['name', 'logo'];
+  columnsToDisplay = ['name', 'logo', 'stadium'];
 
   constructor(private logger: LoggerService, private teamService: TeamService) {
     this.teams = [];

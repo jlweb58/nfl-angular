@@ -13,5 +13,4 @@ export class WeeklyTeamScore {
   public toString(): string {
     return "(" + this.winCount + "-" + this.lossCount + "-" + this.tieCount + ")";
   }
-
 }

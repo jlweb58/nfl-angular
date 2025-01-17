@@ -23,6 +23,9 @@ import {FeedbackDialog} from '../core/components/feedback-dialog.component';
 import {TokenStorageService} from '../core/services/token-storage.service';
 import {User} from '../user/user.model';
 import {PlayerStatus} from '../user/player-status.model';
+import {DateTimeService} from '../core/services/date-time.service';
+import {combineLatest, map, Observable, of} from 'rxjs';
+import {SeasonWeekService} from '../season/season-week.service';
 
 @Component({
   selector: 'app-game-component',
@@ -51,16 +54,27 @@ export class GameComponent implements OnInit {
   columnsToDisplay: string[] = ['awayTeam', 'homeTeam', 'venue', 'gameStartingTime', 'pointSpread', 'score'];
   weekToDisplay: number = 1;
   weeklyGameSelectionsForUser: WeeklyGameSelection[] = [];
+  currentDateTime$: Observable<DateTime | null>;
+  // This is not the week to display, but the week for which
+  // picks are currently allowed.
+  activeGameWeek$: Observable<number | null>;
 
   constructor(private logger: LoggerService, private gameService: GameService,
               private weeklyGameSelectionService: WeeklyGameSelectionService,
-              private dialog: MatDialog, private tokenStorageService: TokenStorageService,) {
+              private dialog: MatDialog,
+              private tokenStorageService: TokenStorageService,
+              private readonly dateTimeService: DateTimeService,
+              private readonly seasonWeekService: SeasonWeekService,) {
     this.games = [];
+    this.currentDateTime$ = this.dateTimeService.currentDateTime$
+    this.activeGameWeek$ = this.seasonWeekService.currentGameWeek$;
   }
 
   ngOnInit(): void {
     this.loadGames();
     this.loadWeeklyGameSelections();
+    this.seasonWeekService.refreshCurrentGameWeek();
+    this.dateTimeService.refreshDateTime();
   }
 
   private loadWeeklyGameSelections() {
@@ -95,12 +109,21 @@ export class GameComponent implements OnInit {
   }
 
 
-  isGameAndTeamPickable(game: Game, team: Team): boolean {
-    if (this.isCurrentUserEliminated()) { return false; }
-    (DateTime as any).now = () => DateTime.fromISO("2024-09-01T12:00:00.000Z");
-    const currentTime: DateTime = DateTime.now().toUTC();
-    const gameTime: DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
-    return currentTime < gameTime && !this.wasTeamAlreadySelected(team) && !this.isAlreadySelectionForWeek(game);
+  isGameAndTeamPickable(game: Game, team: Team): Observable<boolean> {
+    if (this.isCurrentUserEliminated()) { return of(false); }
+    return combineLatest([
+      this.currentDateTime$,
+      this.activeGameWeek$
+        ]).pipe(
+      map(([currentTime, activeWeek]) => {
+        if (!currentTime || activeWeek === null) {return false;}
+        const gameTime: DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
+        return currentTime < gameTime &&
+          !this.wasTeamAlreadySelected(team) &&
+          !this.isAlreadySelectionForWeek(game) &&
+          game.week === activeWeek;
+      })
+    );
   }
 
   private isCurrentUserEliminated(): boolean {
@@ -164,5 +187,4 @@ export class GameComponent implements OnInit {
   }
 
   protected readonly DateTime = DateTime;
-  protected readonly Team = Team;
 }
