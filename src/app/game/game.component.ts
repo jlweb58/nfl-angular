@@ -26,6 +26,8 @@ import {PlayerStatus} from '../user/player-status.model';
 import {DateTimeService} from '../core/services/date-time.service';
 import {combineLatest, map, Observable, of} from 'rxjs';
 import {SeasonWeekService} from '../season/season-week.service';
+import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
+import {WeeklyTeamScorePipe} from '../core/pipes/weekly-team-score.pipe';
 
 @Component({
   selector: 'app-game-component',
@@ -43,7 +45,8 @@ import {SeasonWeekService} from '../season/season-week.service';
     MatHeaderCellDef,
     MatCellDef,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    WeeklyTeamScorePipe
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
