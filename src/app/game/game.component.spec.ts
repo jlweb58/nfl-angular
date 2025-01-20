@@ -1,19 +1,19 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { GameComponent } from './game.component';
-import { LoggerService } from '../core/services/logger.service';
-import { GameService } from '../core/services/game.service';
-import { WeeklyGameSelectionService } from '../core/services/weekly-game-selection.service';
-import { MatDialog } from '@angular/material/dialog';
-import { TokenStorageService } from '../core/services/token-storage.service';
-import { DateTimeService } from '../core/services/date-time.service';
-import { SeasonWeekService } from '../season/season-week.service';
+import {ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing';
+import {GameComponent} from './game.component';
+import {LoggerService} from '../core/services/logger.service';
+import {GameService} from '../core/services/game.service';
+import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
+import {MatDialog} from '@angular/material/dialog';
+import {TokenStorageService} from '../core/services/token-storage.service';
+import {DateTimeService} from '../core/services/date-time.service';
+import {SeasonWeekService} from '../season/season-week.service';
 import {BehaviorSubject, of, Subject} from 'rxjs';
-import { DateTime } from 'luxon';
-import { Game } from './game.model';
-import { Team } from '../team/team.model';
-import { User } from '../user/user.model';
-import { PlayerStatus } from '../user/player-status.model';
-import { WeeklyGameSelection } from '../core/models/weekly-game-selection.model';
+import {DateTime} from 'luxon';
+import {Game} from './game.model';
+import {Team} from '../team/team.model';
+import {User} from '../user/user.model';
+import {PlayerStatus} from '../user/player-status.model';
+import {WeeklyGameSelection} from '../core/models/weekly-game-selection.model';
 import {normalizeExtraEntryPoints} from '@angular-devkit/build-angular/src/tools/webpack/utils/helpers';
 
 describe('GameComponent', () => {
@@ -29,8 +29,8 @@ describe('GameComponent', () => {
   let currentGameWeekSubject: BehaviorSubject<number>;
 
   // Sample test data
-  const mockTeam1 = { id: 1, name: 'Team 1' } as Team;
-  const mockTeam2 = { id: 2, name: 'Team 2' } as Team;
+  const mockTeam1 = {id: 1, name: 'Team 1'} as Team;
+  const mockTeam2 = {id: 2, name: 'Team 2'} as Team;
   const mockGame: Game = {
     id: 1,
     week: 1,
@@ -61,20 +61,20 @@ describe('GameComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     const tokenSpy = jasmine.createSpyObj('TokenStorageService', ['getUser']);
     const dateTimeSpy = jasmine.createSpyObj('DateTimeService',
-      ['refreshDateTime'], { currentDateTime$: currentTimeSubject.asObservable() });
+      ['refreshDateTime'], {currentDateTime$: currentTimeSubject.asObservable()});
     const seasonWeekSpy = jasmine.createSpyObj('SeasonWeekService',
-      ['refreshCurrentGameWeek'], { currentGameWeek$: of(1) });
+      ['refreshCurrentGameWeek'], {currentGameWeek$: currentGameWeekSubject.asObservable()});
 
     await TestBed.configureTestingModule({
       imports: [GameComponent],
       providers: [
-        { provide: LoggerService, useValue: loggerSpy },
-        { provide: GameService, useValue: gameSpy },
-        { provide: WeeklyGameSelectionService, useValue: weeklyGameSpy },
-        { provide: MatDialog, useValue: dialogSpy },
-        { provide: TokenStorageService, useValue: tokenSpy },
-        { provide: DateTimeService, useValue: dateTimeSpy },
-        { provide: SeasonWeekService, useValue: seasonWeekSpy }
+        {provide: LoggerService, useValue: loggerSpy},
+        {provide: GameService, useValue: gameSpy},
+        {provide: WeeklyGameSelectionService, useValue: weeklyGameSpy},
+        {provide: MatDialog, useValue: dialogSpy},
+        {provide: TokenStorageService, useValue: tokenSpy},
+        {provide: DateTimeService, useValue: dateTimeSpy},
+        {provide: SeasonWeekService, useValue: seasonWeekSpy}
       ]
     }).compileComponents();
 
@@ -88,8 +88,8 @@ describe('GameComponent', () => {
     // Setup default return values
     gameService.getGamesForYearAndWeek.and.returnValue(of([mockGame]));
     weeklyGameSelectionService.getAllForCurrentUser.and.returnValue(of([]));
-    tokenStorageService.getUser.and.returnValue({ playerStatus: PlayerStatus.ACTIVE } as User);
-    dialogSpy.open.and.returnValue({ afterClosed: () => of(true) });
+    tokenStorageService.getUser.and.returnValue({playerStatus: PlayerStatus.ACTIVE} as User);
+    dialogSpy.open.and.returnValue({afterClosed: () => of(true)});
 
     fixture = TestBed.createComponent(GameComponent);
     component = fixture.componentInstance;
@@ -126,8 +126,8 @@ describe('GameComponent', () => {
   });
 
   it('should handle keyboard navigation', () => {
-    const leftArrowEvent = new KeyboardEvent('keyup', { key: 'ArrowLeft' });
-    const rightArrowEvent = new KeyboardEvent('keyup', { key: 'ArrowRight' });
+    const leftArrowEvent = new KeyboardEvent('keyup', {key: 'ArrowLeft'});
+    const rightArrowEvent = new KeyboardEvent('keyup', {key: 'ArrowRight'});
 
     component.handleKeyboardEvent(rightArrowEvent);
     expect(component.weekToDisplay).toBe(2);
@@ -155,7 +155,7 @@ describe('GameComponent', () => {
   });
 
   it('should not allow picks for eliminated players', () => {
-    tokenStorageService.getUser.and.returnValue({ playerStatus: PlayerStatus.ELIMINATED } as User);
+    tokenStorageService.getUser.and.returnValue({playerStatus: PlayerStatus.ELIMINATED} as User);
 
     component.isGameAndTeamPickable(mockGame, mockTeam1).subscribe(result => {
       expect(result).toBeFalse();
@@ -232,6 +232,37 @@ describe('GameComponent', () => {
         }
       });
   });
+
+  it('should be pickable if we are before week 1 and the pick is for week 1', fakeAsync(() => {
+
+    mockGame.startTime = DateTime.fromISO('2024-09-06T17:00:00.00Z');
+    mockGame.week = 1;
+    const currentTime = DateTime.fromISO('2024-09-01T18:00:00.00Z'); // 1 hour after game
+    currentGameWeekSubject.next(0);
+    currentTimeSubject.next(currentTime);
+    tick();
+
+    component.isGameAndTeamPickable(mockGame, mockTeam1)
+      .subscribe(result => {
+        expect(result).toBeTrue();
+      });
+    tick();
+  }));
+
+  it('should not be pickable if we are before week 1 and the pick is for week 2', fakeAsync(() => {
+
+    mockGame.week = 2;
+    const currentTime = DateTime.fromISO('2024-09-01T18:00:00.00Z'); // 1 hour after game
+    currentGameWeekSubject.next(0);
+    currentTimeSubject.next(currentTime);
+    tick();
+
+    component.isGameAndTeamPickable(mockGame, mockTeam1)
+      .subscribe(result => {
+        expect(result).toBeFalse();
+      });
+    tick();
+
+  }));
+
 });
-
-

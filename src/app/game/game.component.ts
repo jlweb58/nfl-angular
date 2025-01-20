@@ -26,7 +26,6 @@ import {PlayerStatus} from '../user/player-status.model';
 import {DateTimeService} from '../core/services/date-time.service';
 import {combineLatest, map, Observable, of} from 'rxjs';
 import {SeasonWeekService} from '../season/season-week.service';
-import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 import {WeeklyTeamScorePipe} from '../core/pipes/weekly-team-score.pipe';
 
 @Component({
@@ -124,7 +123,7 @@ export class GameComponent implements OnInit {
         return currentTime < gameTime &&
           !this.wasTeamAlreadySelected(team) &&
           !this.isAlreadySelectionForWeek(game) &&
-          game.week === activeWeek;
+          (game.week === activeWeek || game.week === 1 && activeWeek === 0);
       })
     );
   }
