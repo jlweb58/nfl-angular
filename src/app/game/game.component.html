@@ -19,7 +19,8 @@
         [userStatus]="userStatus"
         [weeklyGameSelectionsForUser]="weeklyGameSelectionsForUser"
         [weekToDisplay]="weekToDisplay"
-        (pickSelected)="setWeeklyPlayerPick(game, game.awayTeam)">
+        (pickSelected)="setWeeklyPlayerPick(game, game.awayTeam)"
+        (pickChanged)="unsetWeeklyPlayerPick(game)">
       </app-game-pick-button>
 
     </td>
