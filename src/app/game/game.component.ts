@@ -3,17 +3,20 @@ import {Game} from './game.model';
 import {LoggerService} from '../core/services/logger.service';
 import {GameService} from '../core/services/game.service';
 import {
-  MatCell, MatCellDef,
+  MatCell,
+  MatCellDef,
   MatColumnDef,
   MatHeaderCell,
   MatHeaderCellDef,
-  MatHeaderRow, MatHeaderRowDef,
-  MatRow, MatRowDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
   MatTable
 } from '@angular/material/table';
 import {CommonModule} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {MatButton, MatIconButton} from '@angular/material/button';
+import {MatIconButton} from '@angular/material/button';
 import {Team} from '../team/team.model';
 import {DateTime} from 'luxon';
 import {WeeklyGameSelectionService} from '../core/services/weekly-game-selection.service';
@@ -24,10 +27,10 @@ import {TokenStorageService} from '../core/services/token-storage.service';
 import {User} from '../user/user.model';
 import {PlayerStatus} from '../user/player-status.model';
 import {DateTimeService} from '../core/services/date-time.service';
-import {combineLatest, map, Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {SeasonWeekService} from '../season/season-week.service';
-import {WeeklyTeamScore} from '../core/models/weekly-team-score.model';
 import {WeeklyTeamScorePipe} from '../core/pipes/weekly-team-score.pipe';
+import {GamePickButtonComponent} from './game-pick-button/game-pick-button.component';
 
 @Component({
   selector: 'app-game-component',
@@ -41,12 +44,12 @@ import {WeeklyTeamScorePipe} from '../core/pipes/weekly-team-score.pipe';
     MatTable,
     MatIcon,
     MatIconButton,
-    MatButton,
     MatHeaderCellDef,
     MatCellDef,
     MatHeaderRowDef,
     MatRowDef,
-    WeeklyTeamScorePipe
+    WeeklyTeamScorePipe,
+    GamePickButtonComponent
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css'
@@ -61,6 +64,7 @@ export class GameComponent implements OnInit {
   // This is not the week to display, but the week for which
   // picks are currently allowed.
   activeGameWeek$: Observable<number | null>;
+  userStatus: PlayerStatus = PlayerStatus.ACTIVE;
 
   constructor(private logger: LoggerService, private gameService: GameService,
               private weeklyGameSelectionService: WeeklyGameSelectionService,
@@ -78,6 +82,7 @@ export class GameComponent implements OnInit {
     this.loadWeeklyGameSelections();
     this.seasonWeekService.refreshCurrentGameWeek();
     this.dateTimeService.refreshDateTime();
+    this.setUserStatus();
   }
 
   private loadWeeklyGameSelections() {
@@ -111,41 +116,9 @@ export class GameComponent implements OnInit {
     }
   }
 
-
-  isGameAndTeamPickable(game: Game, team: Team): Observable<boolean> {
-    if (this.isCurrentUserEliminated()) { return of(false); }
-    return combineLatest([
-      this.currentDateTime$,
-      this.activeGameWeek$
-        ]).pipe(
-      map(([currentTime, activeWeek]) => {
-        if (!currentTime || activeWeek === null) {return false;}
-        const gameTime: DateTime = DateTime.fromISO(game.startTime.toString()).toUTC()
-        return currentTime < gameTime &&
-          !this.wasTeamAlreadySelected(team) &&
-          !this.isAlreadySelectionForWeek(game) &&
-          game.week === activeWeek;
-      })
-    );
-  }
-
-  private isCurrentUserEliminated(): boolean {
+  private setUserStatus(): void {
     let currentUser: User = <User>this.tokenStorageService.getUser();
-    return currentUser.playerStatus === PlayerStatus.ELIMINATED;
-  }
-
-  private wasTeamAlreadySelected(team: Team): boolean {
-    return this.weeklyGameSelectionsForUser.some((wgs) => wgs.winningTeamSelection.id === team.id);
-  }
-
-  private isAlreadySelectionForWeek(game: Game): boolean {
-    return this.weeklyGameSelectionsForUser.some((wgs) => wgs.week === game.week);
-  }
-
-  isPlayerPickForWeek(team: Team): boolean {
-    let currentWeekGameSelection = this.weeklyGameSelectionsForUser.find((wgs) => wgs.week === this.weekToDisplay)
-    if (!currentWeekGameSelection) { return false; }
-    return currentWeekGameSelection.winningTeamSelection.id === team.id;
+    this.userStatus =  currentUser.playerStatus;
   }
 
   previousWeek(): void {
@@ -187,6 +160,36 @@ export class GameComponent implements OnInit {
         });
       },
     });
+  }
+
+  unsetWeeklyPlayerPick(game: Game): void {
+    let selectionToDelete  = this.weeklyGameSelectionsForUser.find(
+      wgs => wgs.selectedGame.id === game.id
+    );
+    if (selectionToDelete) {
+      this.weeklyGameSelectionService.deleteWeeklyGameSelection(selectionToDelete).subscribe({
+        next: () => {
+          this.dialog.open(FeedbackDialog, {
+            data: {
+              title: 'Pick cleared',
+              message: 'Your pick for week ' + game.week + ' was cleared',
+            }, panelClass: 'custom-dialog-container',
+
+          }).afterClosed().subscribe(() => {
+            this.loadGames();
+            this.loadWeeklyGameSelections();// Refresh the data instead of reloading the page
+          });
+        },
+        error: (e) => {
+          this.dialog.open(FeedbackDialog, {
+            data: {
+              title: 'Pick not cleared',
+              message: 'Your pick deletion for week ' + game.week + ' failed because ' + e.message,
+            }, panelClass: 'custom-dialog-container',
+          });
+        },
+      });
+    }
   }
 
   protected readonly DateTime = DateTime;

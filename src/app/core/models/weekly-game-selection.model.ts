@@ -5,7 +5,7 @@ import {GameResult} from '../../game/game-result.model';
 export interface WeeklyGameSelection {
 
   id: number;
-  game: Game;
+  selectedGame: Game;
   winningTeamSelection: Team;
   gameResult?: GameResult;
   week: number;

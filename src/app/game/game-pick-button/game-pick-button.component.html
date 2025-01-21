@@ -1,0 +1,9 @@
+<button mat-raised-button [ngClass]="isPlayerPickForWeek() ? 'picked-game-for-week-button' : 'pick-game-button'" [disabled]="!(isGameAndTeamPickable() | async)"
+        (click)="onPickSelected()"
+        (mouseenter)="isHovering = true"
+        (mouseleave)="isHovering = false">
+  <span *ngIf="isPlayerPickForWeek()">
+    {{ isHovering ? 'Change Pick' : 'My Pick'}}</span>
+  <span *ngIf="(isGameAndTeamPickable() | async) && !isPlayerPickForWeek()">Pick</span>
+  <span *ngIf="!(isGameAndTeamPickable() | async) && !isPlayerPickForWeek()">---</span>
+</button>

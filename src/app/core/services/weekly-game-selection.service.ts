@@ -5,7 +5,7 @@ import {LoggerService} from './logger.service';
 import {Team} from '../../team/team.model';
 import {Game} from '../../game/game.model';
 import {WeeklyGameSelection} from '../models/weekly-game-selection.model';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 
 
@@ -19,6 +19,20 @@ export class WeeklyGameSelectionService {
   constructor(private http: HttpClient, private logger: LoggerService) {
   }
 
+  deleteWeeklyGameSelection(selectionToDelete: WeeklyGameSelection): Observable<any> {
+    return this.http.delete(
+      `${this.serviceUrl}/${selectionToDelete.id}`,
+      { responseType: 'text'}
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+
+        // Customize the error message
+        const errorMessage = error.error?.error || 'Failed to delete pick.';
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
+
   setWeeklyGameSelection(game: Game, team: Team) : Observable<any>{
     return this.http.post<{ message: string }>(
       `${this.serviceUrl}/${game.id}/${team.id}`,
@@ -29,7 +43,8 @@ export class WeeklyGameSelectionService {
         const errorMessage = error.error?.error || 'Failed to submit pick.';
         return throwError(() => new Error(errorMessage));
       })
-    );  }
+    );
+  }
 
   getAllForCurrentUser(): Observable<WeeklyGameSelection[]> {
     return this.http.get<WeeklyGameSelection[]>(this.serviceUrl);

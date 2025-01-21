@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import {
+  HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
+  HTTP_INTERCEPTORS,
+  HttpErrorResponse
+} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import {TokenStorageService} from '../services/token-storage.service';
@@ -14,13 +21,16 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
-      if (err.status === 401) {
-        // auto logout if 401 response returned from api
-        this.tokenStorageService.logout();
-      }
+      if (err instanceof HttpErrorResponse && err.status !== 200) {
+        if (err.status === 401) {
+          // auto logout if 401 response returned from api
+          this.tokenStorageService.logout();
+        }
 
-      const error = err.error || err.statusText;
-      return throwError(() => new Error(error));
+        const error = err.error || err.statusText;
+        return throwError(() => new Error(error));
+      }
+      return of(err);
     }));
   }
 }

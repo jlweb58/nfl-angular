@@ -6,6 +6,7 @@ import {WeeklyTeamScore} from '../models/weekly-team-score.model';
 })
 export class WeeklyTeamScorePipe implements PipeTransform {
   transform(score: WeeklyTeamScore): string {
+    if (!score) { return '';}
     return `(${score.winCount}-${score.lossCount}-${score.tieCount})`;
   }
 }

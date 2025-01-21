@@ -61,9 +61,9 @@ describe('GameComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     const tokenSpy = jasmine.createSpyObj('TokenStorageService', ['getUser']);
     const dateTimeSpy = jasmine.createSpyObj('DateTimeService',
-      ['refreshDateTime'], { currentDateTime$: currentTimeSubject.asObservable() });
+      ['refreshDateTime'], {currentDateTime$: currentTimeSubject.asObservable()});
     const seasonWeekSpy = jasmine.createSpyObj('SeasonWeekService',
-      ['refreshCurrentGameWeek'], { currentGameWeek$: of(1) });
+      ['refreshCurrentGameWeek'], {currentGameWeek$: currentGameWeekSubject.asObservable()});
 
     await TestBed.configureTestingModule({
       imports: [GameComponent],
@@ -136,31 +136,6 @@ describe('GameComponent', () => {
     expect(component.weekToDisplay).toBe(1);
   });
 
-  it('should check if game is pickable', (done) => {
-    mockGame.startTime = DateTime.fromISO('2024-10-05T17:00:00.00Z');
-    mockGame.week = 1;
-    const currentTime = DateTime.fromISO('2024-10-05T12:00:00.00Z');
-    currentGameWeekSubject.next(1);
-    currentTimeSubject.next(currentTime)
-
-    component.isGameAndTeamPickable(mockGame, mockTeam1).subscribe({
-      next: (result) => {
-        expect(result).toBe(true);
-        done();
-      },
-      error: (error) => {
-        done.fail(error);
-      }
-    });
-  });
-
-  it('should not allow picks for eliminated players', () => {
-    tokenStorageService.getUser.and.returnValue({ playerStatus: PlayerStatus.ELIMINATED } as User);
-
-    component.isGameAndTeamPickable(mockGame, mockTeam1).subscribe(result => {
-      expect(result).toBeFalse();
-    });
-  });
 
   it('should set weekly player pick', fakeAsync(() => {
     weeklyGameSelectionService.setWeeklyGameSelection.and.returnValue(of({}));
@@ -173,65 +148,4 @@ describe('GameComponent', () => {
     expect(dialog.open).toHaveBeenCalled();
   }));
 
-  it('should not be pickable after current game week', (done) => {
-    mockGame.startTime = DateTime.fromISO('2024-10-06T17:00:00.00Z');
-    mockGame.week = 3;
-    const currentTime = DateTime.fromISO('2024-09-05T18:00:00.00Z'); // 1 hour after game
-    currentGameWeekSubject.next(1);
-    currentTimeSubject.next(currentTime);
-
-    component.isGameAndTeamPickable(mockGame, mockTeam1)
-      .subscribe({
-        next: (result) => {
-          expect(result).toBeFalse();
-          done();
-        },
-        error: (error) => {
-          done.fail(error);
-        }
-      });
-  });
-
-  it('should not be pickable after game time', (done) => {
-    const currentTime = DateTime.fromISO('2024-10-05T18:00:00.00Z'); // 1 hour after game
-    mockGame.startTime = DateTime.fromISO('2024-10-05T17:00:00.00Z');
-    currentTimeSubject.next(currentTime);
-
-    component.isGameAndTeamPickable(mockGame, mockTeam1)
-      .subscribe({
-        next: (result) => {
-          expect(result).toBeFalse();
-          done();
-        },
-        error: (error) => {
-          done.fail(error);
-        }
-      });
-  });
-
-  it('should not be pickable if team was already selected', (done) => {
-    // Setup game time in future
-    const currentTime = DateTime.fromISO('2024-10-05T12:00:00.00Z');
-    mockGame.startTime = DateTime.fromISO('2024-10-05T17:00:00.00Z');
-    currentTimeSubject.next(currentTime);
-
-    // Add a previous selection for this team
-    component.weeklyGameSelectionsForUser = [{
-      week: 2,
-      winningTeamSelection: mockTeam1
-    } as WeeklyGameSelection];
-
-    component.isGameAndTeamPickable(mockGame, mockTeam1)
-      .subscribe({
-        next: (result) => {
-          expect(result).toBeFalse();
-          done();
-        },
-        error: (error) => {
-          done.fail(error);
-        }
-      });
-  });
 });
-
-
