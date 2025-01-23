@@ -42,14 +42,16 @@ export class PoolTableComponent implements OnInit {
   pool: Pool | null = null;
   dataSource = new MatTableDataSource<User>([]);
   weeks = Array.from({length: 18}, (_, i) => `week${i + 1}`);
+  currentUser: User | null = null;
+
 
   constructor(private poolService: PoolService, private tokenStorageService: TokenStorageService,
               private weeklyGameSelectionService: WeeklyGameSelectionService,
               private logger: LoggerService) { }
 
   ngOnInit(): void {
-    let currentUser: User | null = this.tokenStorageService.getUser();
-    this.poolService.getPoolsForUser(<number>currentUser?.id).subscribe(
+    this.currentUser = this.tokenStorageService.getUser();
+    this.poolService.getPoolsForUser(<number>this.currentUser?.id).subscribe(
       results => {
         if (!results) {
           return;
@@ -62,6 +64,24 @@ export class PoolTableComponent implements OnInit {
     );
   }
 
+  shouldShowSelection(weeklyGameSelection: WeeklyGameSelection): boolean {
+    this.logger.log("weeklyGameSelection=" + weeklyGameSelection.user + ", currentUser = " + this.currentUser?.name);
+    if (weeklyGameSelection.user.id === this.currentUser?.id) {
+      return true;
+    }
+    let selectionWeek = weeklyGameSelection.week;
+    return this.isCurrentUserSelectionForWeekFinished(selectionWeek);
+  }
+
+  private isCurrentUserSelectionForWeekFinished(selectionWeek: number): boolean {
+    this.logger.log("weeklyGameSelectionWeek=" + selectionWeek);
+    let userWeeklySelection = this.currentUser?.weeklyGameSelections
+      .find(wgs => wgs.week === selectionWeek);
+    this.logger.log("user selection for week=" + userWeeklySelection);
+    return !!userWeeklySelection?.selectedGame.finished;
+
+  }
+
   private initializeWeeklyGameSelections(): void {
     this.pool?.poolMembers.forEach((member: User) => {
       this.weeklyGameSelectionService.getForUser(member.id).subscribe(
@@ -70,20 +90,23 @@ export class PoolTableComponent implements OnInit {
             return;
           }
           member.weeklyGameSelections = results;
+          if (member.id === this.currentUser?.id) {
+            this.currentUser.weeklyGameSelections = results;
+          }
         }
       );
     })
   }
 
   getClassForSelection(userWeeklyPick: WeeklyGameSelection): string {
-   if (!userWeeklyPick || !userWeeklyPick.gameResult) {
+   if (!userWeeklyPick ) {
       return '';
     }
     switch (userWeeklyPick.gameResult) {
       case 'WIN': return 'pool-table-result-cell-won';
       case 'LOSS': return 'pool-table-result-cell-lost';
+      default: return 'pool-table-result-cell';
     }
-    return '';
   }
 
 }

@@ -15,4 +15,5 @@ export interface Game {
   awayPoints: number;
   pointSpread: number;
   venue: Stadium;
+  finished: boolean;
 }

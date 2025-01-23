@@ -45,6 +45,16 @@ table.mat-table {
   min-height: 40px;
 }
 
+.week-content-mystery {
+  display: flex;
+  align-items: center;
+  font-size: x-large;
+  gap: 8px;
+  padding: 8px;
+  min-height: 40px;
+}
+
+
 .week-result-text {
   white-space: nowrap;
 }
@@ -63,11 +73,14 @@ mat-row {
 
 .pool-table-result-cell-won {
   background: rgba(0, 128, 0, 0.69);
-
 }
 
 .pool-table-result-cell-lost {
   background: #c51313;
+}
+
+.pool-table-result-cell {
+  background: #bababa;
 }
 
 

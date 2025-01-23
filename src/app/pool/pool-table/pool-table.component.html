@@ -14,9 +14,12 @@
       </div>
     </th>
     <td mat-cell *matCellDef="let user" [ngClass]="getClassForSelection(user?.weeklyGameSelections[weekIndex])">
-      <div class="week-content">
+      <div class="week-content" *ngIf="user?.weeklyGameSelections?.[weekIndex] && shouldShowSelection(user?.weeklyGameSelections[weekIndex])">
         <span class="week-result-text">{{user.weeklyGameSelections[weekIndex]?.winningTeamSelection.name}}</span>
         <img *ngIf="user.weeklyGameSelections[weekIndex]?.winningTeamSelection" class="pool-team-icon" src="assets/images/{{user.weeklyGameSelections[weekIndex]?.winningTeamSelection.abbreviation}}.png" />
+      </div>
+      <div class="week-content-mystery" *ngIf="user?.weeklyGameSelections?.[weekIndex] && !shouldShowSelection(user?.weeklyGameSelections[weekIndex])">
+        ???
       </div>
     </td>
   </ng-container>
