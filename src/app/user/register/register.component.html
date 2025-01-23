@@ -19,6 +19,17 @@
         <mat-error *ngIf="formFields['username'].errors?.['required']">New password is required</mat-error>
       </div>
     </mat-form-field>
+    <div>
+      <label class="mat-label" style="color: rgba(0, 0, 0, 0.6);">User Roles</label>
+      <div formGroupName="roles" style="margin-top: 10px;">
+        <mat-checkbox formControlName="PLAYER">PLAYER</mat-checkbox>
+        <mat-checkbox formControlName="ADMIN" style="margin-left: 20px;">ADMIN</mat-checkbox>
+      </div>
+      <mat-error *ngIf="registerUserForm.get('roles')?.errors?.['noRoleSelected']">
+        User must have at least one role
+      </mat-error>
+    </div>
+
     <mat-form-field>
       <mat-label>Password</mat-label>
       <input matInput type="password" formControlName="password">

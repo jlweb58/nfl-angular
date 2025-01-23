@@ -49,13 +49,13 @@ export class UserEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private fb: FormBuilder
+    private formBuilder: FormBuilder
   ) {
-    this.userForm = this.fb.group({
+    this.userForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       playerStatus: [''],
-      roles: this.fb.group({
+      roles: this.formBuilder.group({
         PLAYER: [false],
         ADMIN: [false],
       }, {validators: atLeastOneRoleSelected})
