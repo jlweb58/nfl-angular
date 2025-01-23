@@ -1,0 +1,18 @@
+.page-div {
+  height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 64px;
+}
+
+.form-div {
+  display: flex;
+  flex-direction:
+    column; gap: 20px;
+  max-width: 400px;
+}
+
+.button-div {
+  padding-top: 64px;
+}

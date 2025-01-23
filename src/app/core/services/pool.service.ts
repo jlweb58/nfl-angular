@@ -34,8 +34,8 @@ export class PoolService {
     );
   }
 
-  createPool(Pool: Pool): Observable<Pool> {
-    return this.http.post<Pool>(this.serviceUrl, Pool).pipe(
+  createPool(pool: Pool): Observable<Pool> {
+    return this.http.post<Pool>(this.serviceUrl, pool).pipe(
       tap(() => {
         this.invalidateCache();
       }),

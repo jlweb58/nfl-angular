@@ -6,8 +6,9 @@ import {ChangePasswordResponse} from '../../user/change-password/change-password
 import {environment} from '../../../environments/environment';
 import {RegisterUserRequest} from '../../user/register/register-user-request.model';
 import {RegisterUserResponse} from '../../user/register/register-user-response.model';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {catchError} from 'rxjs/operators';
+import {User} from '../../user/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,16 +26,34 @@ export class UserService {
       .post<ChangePasswordResponse>(this.serviceUrl + '/password', changePasswordRequest)
       .subscribe(
         data => {
-          this.logger.log('Change password successful');
           this.message = data.message;
         }
       );
   }
 
   registerUser(registerUserRequest: RegisterUserRequest):Observable<RegisterUserResponse> {
-    this.logger.log('UserService: registerUser');
     return this.http
       .post<RegisterUserResponse>(this.serviceUrl + '/register', registerUserRequest)
+      .pipe(
+        catchError((error) => {
+          throw new Error(error);
+        })
+      )
+  }
+
+  getUser(userId: number) : Observable<User> {
+    return this.http
+      .get<User>(this.serviceUrl + '/' + userId)
+      .pipe(
+        catchError((error) => {
+          throw new Error(error);
+        })
+      )
+  }
+
+  updateUser(updatedUser: User):Observable<User> {
+    return this.http
+      .put<User>(this.serviceUrl, updatedUser)
       .pipe(
         catchError((error) => {
           throw new Error(error);

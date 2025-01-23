@@ -45,11 +45,4 @@ export class TokenStorageService {
     return currentUser.userRoles;
   }
 
-  public getUserPool(): Pool | null {
-    let currentUser  = this.getUser();
-    if (!currentUser) return null;
-    //needed because Array.at() can returned undefined; the
-    //?? operator coalesces undefined to null
-    return currentUser.pools.at(0) ?? null;
-  }
 }

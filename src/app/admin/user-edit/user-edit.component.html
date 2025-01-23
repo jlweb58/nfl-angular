@@ -1,0 +1,43 @@
+<div class="page-div">
+  <div>
+  <div class="mb-4">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 class="inline-block ml-2">Edit User</h2>
+  </div>
+
+  <div class="form-div">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" *ngIf="user" class="flex flex-col space-y-4 max-w-md">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+    </mat-form-field>
+
+    <div>
+      <label class="mat-label" style="color: rgba(0, 0, 0, 0.6);">User Roles</label>
+      <div formGroupName="roles" style="margin-top: 10px;">
+        <mat-checkbox formControlName="PLAYER">PLAYER</mat-checkbox>
+        <mat-checkbox formControlName="ADMIN" style="margin-left: 20px;">ADMIN</mat-checkbox>
+      </div>
+      <mat-error *ngIf="userForm.get('roles')?.errors?.['noRoleSelected']">
+        User must have at least one role
+      </mat-error>
+    </div>
+
+    <div class="flex justify-end gap-2 button-div">
+      <button mat-button type="button" (click)="goBack()">Cancel</button>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="userForm.invalid || saving">
+        {{saving ? 'Saving...' : 'Save'}}
+      </button>
+    </div>
+  </form>
+  </div>
+  </div>
+</div>

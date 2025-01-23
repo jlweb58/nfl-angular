@@ -10,6 +10,8 @@ import {RegisterComponent} from './user/register/register.component';
 import {AdminComponent} from './admin/admin.component';
 import {PoolComponent} from './pool/pool.component';
 import {PoolTableComponent} from './pool/pool-table/pool-table.component';
+import {UserManagementComponent} from './admin/user-management/user-management.component';
+import {UserEditComponent} from './admin/user-edit/user-edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'teams', pathMatch: 'full' },
@@ -23,4 +25,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuardService], data: {roles: ['ADMIN']} },
   { path: 'pools', component: PoolComponent, canActivate: [AuthGuardService], data: {roles: ['ADMIN']} },
   { path: 'pool-table', component: PoolTableComponent, canActivate: [AuthGuardService] },
+  { path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuardService] },
+  { path: 'users/:id/edit', component: UserEditComponent },
 ];
