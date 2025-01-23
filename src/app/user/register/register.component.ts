@@ -51,6 +51,8 @@ export class RegisterComponent implements OnInit {
   submitted: boolean = false;
 
   pools: Pool[] = [];
+  private backUrl = '/user-management';
+
 
   constructor(private formBuilder: FormBuilder, private logger: LoggerService,
               private userService: UserService, private router: Router,
@@ -115,7 +117,7 @@ export class RegisterComponent implements OnInit {
               message: 'User was successfully registered!',
             }, panelClass: 'custom-dialog-container',
           }).afterClosed().subscribe(() => {
-            this.router.navigate(['/registered']);
+            this.router.navigate([this.backUrl]);
           });
         },
         error: (error) => {
@@ -130,6 +132,11 @@ export class RegisterComponent implements OnInit {
         }
       }
     );
+  }
+
+
+  goBack() {
+    this.router.navigate([this.backUrl]);
   }
 
 }
