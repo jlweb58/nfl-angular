@@ -9,7 +9,6 @@ import {
   MatDatepickerModule,
   MatDatepickerToggle
 } from '@angular/material/datepicker';
-import {MatIcon} from '@angular/material/icon';
 import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
 import {MatButton} from '@angular/material/button';
 import {MatTimepickerModule} from '@angular/material/timepicker';
@@ -59,10 +58,11 @@ export class DatetimeEditComponent {
 
         this.dateTimeService.setDateTime(DateTime.fromJSDate(date).setZone('UTC')).subscribe({
             next: (response) => {
+              console.log(response);
               this.dialog.open(FeedbackDialog, {
                 data: {
                   title: 'Date/Time set',
-                  message: 'The date and time were successfully changed!',
+                  message: 'The date and time were successfully changed: ' + response,
                 }, panelClass: 'custom-dialog-container',
               }).afterClosed().subscribe(() => {
                 this.router.navigate(['/games'])
