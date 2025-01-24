@@ -12,6 +12,7 @@ import {PoolComponent} from './pool/pool.component';
 import {PoolTableComponent} from './pool/pool-table/pool-table.component';
 import {UserManagementComponent} from './admin/user-management/user-management.component';
 import {UserEditComponent} from './admin/user-edit/user-edit.component';
+import {DatetimeEditComponent} from './admin/datetime-edit/datetime-edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'teams', pathMatch: 'full' },
@@ -27,4 +28,5 @@ export const routes: Routes = [
   { path: 'pool-table', component: PoolTableComponent, canActivate: [AuthGuardService] },
   { path: 'user-management', component: UserManagementComponent, canActivate: [AuthGuardService] },
   { path: 'users/:id/edit', component: UserEditComponent },
+  { path: 'date-time-edit', component: DatetimeEditComponent },
 ];

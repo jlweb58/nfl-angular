@@ -1,0 +1,21 @@
+<div class="page-div">
+  <div class="form-div">
+<mat-form-field>
+  <mat-label>Choose a date</mat-label>
+  <input matInput [matDatepicker]="picker" [formControl]="dateControl">
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Choose a time</mat-label>
+  <input matInput [matTimepicker]="timepicker" [formControl]="timeControl">
+  <mat-timepicker-toggle matSuffix [for]="timepicker"></mat-timepicker-toggle>
+  <mat-timepicker #timepicker></mat-timepicker>
+</mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" (click)="setDateTime()">
+      Save
+    </button>
+</div>
+</div>

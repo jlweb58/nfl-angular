@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../../environments/environment';
 import {LoggerService} from './logger.service';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, map, Observable, timer} from 'rxjs';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {BehaviorSubject, map, Observable, of, tap, throwError, timer} from 'rxjs';
 import {DateTime} from 'luxon';
 import {catchError} from 'rxjs/operators';
 
@@ -25,6 +25,25 @@ export class DateTimeService {
       next: (dateTime) => this.currentDateTimeSubject.next(dateTime),
       error: (error) => this.logger.log('Failed to refresh datetime: ' + error)
     });
+  }
+
+  setDateTime(dateTime: DateTime): Observable<any> {
+    let params :HttpParams = new HttpParams();
+    params = params.set('fixed', true)
+    let strDateTime = dateTime.toISO();
+    if (strDateTime === null) {
+      return of('null');
+    }
+    params = params.set('fixedTime', strDateTime);
+    return this.http.post(this.serviceUrl, null, {
+      params,
+      responseType: 'text'  // Explicitly handle text response
+    }).pipe(
+      catchError(error => {
+        this.logger.log('Error setting current datetime: ' + error);
+        throw throwError(() => error);
+      }
+    ));
   }
 
 

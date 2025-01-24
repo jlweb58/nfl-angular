@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {ApplicationConfig, importProvidersFrom, provideZoneChangeDetection} from '@angular/core';
 import {provideRouter, withDebugTracing} from '@angular/router';
 
 import { routes } from './app.routes';
@@ -6,6 +6,8 @@ import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptors
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {AuthInterceptor} from './core/interceptors/auth.interceptor';
 import {ErrorInterceptor} from './core/interceptors/error.interceptor';
+import {MatNativeDateModule} from '@angular/material/core';
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -13,5 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient( withInterceptorsFromDi(), ),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    provideAnimations()]
+    provideAnimations(),
+    importProvidersFrom(MatNativeDateModule, NgxMatTimepickerModule),
+  ]
 };
