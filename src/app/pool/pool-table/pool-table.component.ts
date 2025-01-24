@@ -65,7 +65,6 @@ export class PoolTableComponent implements OnInit {
   }
 
   shouldShowSelection(weeklyGameSelection: WeeklyGameSelection): boolean {
-    this.logger.log("weeklyGameSelection=" + weeklyGameSelection.user + ", currentUser = " + this.currentUser?.name);
     if (weeklyGameSelection.user.id === this.currentUser?.id) {
       return true;
     }
@@ -74,10 +73,8 @@ export class PoolTableComponent implements OnInit {
   }
 
   private isCurrentUserSelectionForWeekFinished(selectionWeek: number): boolean {
-    this.logger.log("weeklyGameSelectionWeek=" + selectionWeek);
     let userWeeklySelection = this.currentUser?.weeklyGameSelections
       .find(wgs => wgs.week === selectionWeek);
-    this.logger.log("user selection for week=" + userWeeklySelection);
     return !!userWeeklySelection?.selectedGame.finished;
 
   }

@@ -3,7 +3,7 @@
         (mouseenter)="isHovering = true"
         (mouseleave)="isHovering = false">
   <span *ngIf="isPlayerPickForWeek()">
-    {{ isHovering ? 'Change Pick' : 'My Pick'}}</span>
+    {{ isHovering ? 'Clear Pick' : 'My Pick'}}</span>
   <span *ngIf="(isGameAndTeamPickable() | async) && !isPlayerPickForWeek()">Pick</span>
   <span *ngIf="!(isGameAndTeamPickable() | async) && !isPlayerPickForWeek()">---</span>
 </button>

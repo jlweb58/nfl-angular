@@ -13,8 +13,8 @@ mat-toolbar {
 
 .main-content {
   flex: 1;
-  padding: 20px;
   margin: 0;
+  padding: 20px;
   width: 100%;
   box-sizing: border-box;
 }

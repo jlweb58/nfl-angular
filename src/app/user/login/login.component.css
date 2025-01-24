@@ -1,10 +1,31 @@
 .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 300px; /* or whatever width you prefer */
-  margin: 0 auto;
-  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2rem;
+  border-radius: 8px;
+  min-width: 250px;
+  max-width: 350px;
+  background-color: rgba(168, 211, 168, 0.32);
+}
+
+.login-page .main-content {
+  padding: 0 !important;
+}
+
+.login-title {
+  text-align: center;
+  padding-top: 1.5rem;
+  color: #cab914;
+}
+
+:host  {
+  display: block;
+  min-height: 100vh;
+  background: url('/assets/images/field-background.svg');
+  background-size: cover;
+  background-position: center;
 }
 
 /* Make form fields take full width of the container */
@@ -15,6 +36,7 @@
 /* Center the login button */
 .login-button {
   margin: 20px;
+  background-color: #0e4a0e !important;
 }
 
 .has-error {

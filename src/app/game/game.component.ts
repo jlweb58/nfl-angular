@@ -78,11 +78,20 @@ export class GameComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadGames();
     this.loadWeeklyGameSelections();
     this.seasonWeekService.refreshCurrentGameWeek();
     this.dateTimeService.refreshDateTime();
     this.setUserStatus();
+    this.activeGameWeek$.subscribe(
+      results => {
+        if (!results) {
+          return;
+        }
+        this.weekToDisplay = results;
+        this.loadGames();
+      }
+
+    );
   }
 
   private loadWeeklyGameSelections() {
